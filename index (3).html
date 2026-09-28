@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vaishnavi Patil — UI/UX Designer</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Caveat:wght@600;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+:root{
+  --cream:#FBF3E6;
+  --ink:#1A1712;
+  --ink-soft:rgba(26,23,18,.62);
+  --accent:#F5A425;
+  --accent-dark:#D6841A;
+  --line:rgba(26,23,18,.13);
+  --display:'Bricolage Grotesque',system-ui,sans-serif;
+  --body:'Figtree',system-ui,sans-serif;
+  --script:'Caveat',cursive;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--cream);color:var(--ink);line-height:1.65}
+a{text-decoration:none;color:inherit}
+h1,h2,h3,h4{font-family:var(--display);letter-spacing:-.02em;line-height:1.07}
+section{padding:clamp(4rem,8vw,7rem) 0}
+.text-soft{color:var(--ink-soft)}
+.bg-ink{background:var(--ink)!important;color:var(--cream)}
+.bg-ink .text-soft{color:rgba(251,243,230,.62)}
+.accent{color:var(--accent)}
+.eyebrow{font-size:.82rem;font-weight:600;color:var(--accent-dark);margin-bottom:.6rem}
+
+/* buttons */
+.btn-accent{background:var(--accent);border-color:var(--accent);color:var(--ink);font-weight:600;border-radius:100px;padding:.75rem 1.6rem}
+.btn-accent:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:var(--ink)}
+.btn-outline-ink{border:1.5px solid var(--ink);color:var(--ink);border-radius:100px;font-weight:600;padding:.72rem 1.55rem}
+.btn-outline-ink:hover{background:var(--ink);color:var(--cream)}
+.btn-outline-cream{border:1.5px solid var(--cream);color:var(--cream);border-radius:100px;font-weight:600;padding:.72rem 1.55rem}
+.btn-outline-cream:hover{background:var(--cream);color:var(--ink)}
+
+/* NAVBAR - glass */
+.navbar-glass{position:fixed;top:0;width:100%;z-index:1030;background:rgba(251,243,230,.55);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);border-bottom:1px solid var(--line);transition:background .3s}
+.navbar-glass .navbar-brand{font-family:var(--display);font-weight:700;color:var(--ink)}
+.navbar-glass .nav-link{color:var(--ink);font-weight:500;font-size:.95rem;opacity:.75}
+.navbar-glass .nav-link:hover{opacity:1;color:var(--accent-dark)}
+
+/* HERO */
+#hero{padding-top:8.5rem}
+.status-dot{width:9px;height:9px;border-radius:50%;background:var(--accent);display:inline-block;animation:pulse 2s infinite}
+.hero-svg{width:100%;height:auto;max-width:640px}
+.hero-svg text{font-family:var(--script);font-size:82px;fill:none;stroke:var(--ink);stroke-width:2;paint-order:stroke;stroke-dasharray:2600;stroke-dashoffset:2600;animation:draw 2.6s ease forwards, fillin 1s ease forwards 2.4s}
+.hero-role{max-width:32rem;font-size:clamp(1.05rem,1.8vw,1.25rem)}
+.fact-chip{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:16px;padding:.9rem 1.2rem;backdrop-filter:blur(6px)}
+.fact-chip b{display:block;font-family:var(--display);font-size:1.3rem;line-height:1}
+.fact-chip span{font-size:.78rem;color:var(--ink-soft)}
+
+.hero-art{position:relative;aspect-ratio:1/1;max-width:430px;margin:0 auto}
+.hero-art .blob{position:absolute;inset:6%;border-radius:50%;background:var(--accent)}
+.hero-art .card-ui{position:absolute;left:12%;right:12%;top:12%;bottom:10%;background:var(--cream);border-radius:22px;padding:1.1rem;box-shadow:0 30px 60px rgba(26,23,18,.3);display:flex;flex-direction:column;gap:.6rem;animation:float 6s ease-in-out infinite}
+.card-ui .bar{height:9px;border-radius:6px;background:var(--line)}
+.card-ui .bar.w1{width:45%;background:var(--ink)}.card-ui .bar.w2{width:78%}.card-ui .bar.w3{width:58%}
+.card-ui .block{flex:1;min-height:80px;border-radius:14px;background:var(--ink);position:relative;overflow:hidden}
+.card-ui .block::after{content:"";position:absolute;width:60%;aspect-ratio:1;border-radius:50%;background:var(--accent);right:-15%;bottom:-25%}
+.floating-tag{position:absolute;background:var(--ink);color:var(--cream);font-size:.78rem;font-weight:600;padding:.45rem .95rem;border-radius:100px;animation:float 5s ease-in-out infinite}
+.floating-tag.t1{top:6%;right:-4%;animation-delay:-1s}
+.floating-tag.t2{bottom:18%;left:-6%;background:var(--cream);color:var(--ink);border:1.5px solid var(--ink);animation-delay:-2.5s}
+
+/* marquee */
+.marquee{background:var(--ink);color:var(--cream);overflow:hidden;white-space:nowrap;padding:.9rem 0}
+.track{display:inline-flex;gap:2.4rem;animation:slide 26s linear infinite}
+.track span{font-family:var(--display);font-weight:700;font-size:1.2rem;display:inline-flex;align-items:center;gap:2.4rem}
+.track span::after{content:"✦";color:var(--accent);font-size:.95rem}
+
+/* ABOUT */
+.check-list{list-style:none;padding:0;display:grid;gap:.65rem}
+.check-list li{display:flex;gap:.7rem;align-items:flex-start;font-weight:500}
+.check-list li::before{content:"";width:22px;height:22px;flex:none;margin-top:.15rem;border-radius:50%;background:var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231A1712' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/65% no-repeat}
+.edu-card{border:1px solid var(--line);border-radius:16px;padding:1.1rem 1.3rem}
+.edu-card b{font-size:.98rem}
+.edu-card span{font-size:.82rem;color:var(--ink-soft)}
+
+/* SKILLS */
+.skill-card{border:1px solid var(--line);border-radius:18px;padding:1.5rem;height:100%;background:#fff;transition:border-color .25s,transform .25s}
+.skill-card:hover{border-color:var(--accent);transform:translateY(-4px)}
+.skill-card h4{font-size:1.15rem;margin-bottom:.4rem}
+.skill-card p{font-size:.9rem;color:var(--ink-soft);min-height:3.3em}
+.kw-chip{display:inline-block;font-size:.75rem;font-weight:600;color:var(--accent-dark);border:1px solid rgba(214,132,26,.4);border-radius:100px;padding:.15rem .65rem;margin:.15rem .3rem .15rem 0}
+.badge-soft{background:rgba(255,255,255,.08);border:1px solid rgba(251,243,230,.22);color:var(--cream);font-weight:500;font-size:.85rem;border-radius:100px;padding:.5rem 1.05rem;transition:background .2s,border-color .2s}
+.badge-soft:hover{background:var(--accent);border-color:var(--accent);color:var(--ink)}
+.cat-label{font-size:.78rem;letter-spacing:.4px;color:var(--accent);font-weight:700;margin-bottom:.7rem}
+
+/* EXPERIENCE timeline */
+.timeline{position:relative;padding-left:2.2rem;border-left:2px solid var(--line)}
+.timeline-item{position:relative;padding-bottom:2.6rem}
+.timeline-item:last-child{padding-bottom:0}
+.timeline-item::before{content:"";position:absolute;left:-2.42rem;top:.35rem;width:14px;height:14px;border-radius:50%;background:var(--accent);border:3px solid var(--cream);box-shadow:0 0 0 2px var(--accent)}
+.timeline-item .role{font-size:1.2rem}
+.timeline-item .meta{font-size:.85rem;color:var(--ink-soft);margin-bottom:.6rem}
+.timeline-item ul{padding-left:1.1rem;margin-bottom:0}
+.timeline-item li{font-size:.93rem;color:var(--ink-soft);margin-bottom:.35rem}
+.timeline-item li strong{color:var(--ink)}
+
+/* PROJECTS */
+.proj-card{border:1px solid var(--line);border-radius:20px;background:#fff;height:100%;display:flex;flex-direction:column;overflow:hidden;transition:transform .25s,box-shadow .25s}
+.proj-card:hover{transform:translateY(-5px);box-shadow:0 20px 45px rgba(26,23,18,.12)}
+.proj-top{padding:1.6rem 1.6rem 1rem;flex:1}
+.proj-tag{font-size:.72rem;font-weight:700;letter-spacing:.3px;color:var(--accent-dark);background:rgba(245,164,37,.14);padding:.28rem .75rem;border-radius:100px;display:inline-block;margin-bottom:.8rem}
+.proj-card h3{font-size:1.3rem;margin-bottom:.5rem}
+.proj-card p{font-size:.92rem;color:var(--ink-soft);margin-bottom:.9rem}
+.proj-stats{display:flex;gap:1.4rem;margin-bottom:.9rem;flex-wrap:wrap}
+.proj-stats div b{display:block;font-family:var(--display);font-size:1.25rem;color:var(--ink);line-height:1}
+.proj-stats div span{font-size:.72rem;color:var(--ink-soft)}
+.proj-foot{border-top:1px solid var(--line);padding:1rem 1.6rem;display:flex;justify-content:space-between;align-items:center}
+.proj-cta{font-weight:600;font-size:.9rem;display:inline-flex;align-items:center;gap:.4rem}
+.proj-cta em{font-style:normal;transition:transform .2s}
+.proj-card:hover .proj-cta em{transform:translate(3px,-3px)}
+
+/* CONTACT */
+.contact-panel{background:linear-gradient(135deg,var(--ink) 0%,#26201A 100%);color:var(--cream);border-radius:30px;padding:clamp(2.2rem,6vw,4.5rem);position:relative;overflow:hidden}
+.contact-panel::before{content:"";position:absolute;width:420px;aspect-ratio:1;border-radius:50%;background:rgba(245,164,37,.18);right:-140px;top:-160px}
+.contact-panel::after{content:"";position:absolute;width:300px;aspect-ratio:1;border-radius:50%;border:1.5px dashed rgba(251,243,230,.25);left:-90px;bottom:-120px}
+.contact-panel h2{font-size:clamp(2.2rem,5.5vw,3.6rem);max-width:14ch;position:relative;z-index:1}
+.contact-row{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.6rem}
+.contact-links{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2.2rem;position:relative;z-index:1}
+.contact-link-card{background:rgba(251,243,230,.07);border:1px solid rgba(251,243,230,.2);border-radius:16px;padding:.9rem 1.4rem;display:flex;align-items:center;gap:.7rem;font-weight:600;transition:background .2s,border-color .2s,transform .2s}
+.contact-link-card:hover{background:var(--accent);color:var(--ink);border-color:var(--accent);transform:translateY(-3px)}
+
+footer{text-align:center;padding:2rem 0;font-size:.85rem;color:var(--ink-soft)}
+
+/* keyframes */
+@keyframes pulse{50%{box-shadow:0 0 0 7px rgba(245,164,37,.25)}}
+@keyframes float{50%{transform:translateY(-12px)}}
+@keyframes slide{to{transform:translateX(-50%)}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fillin{to{fill:var(--ink)}}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.in{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.05s}.d2{animation-delay:.18s}.d3{animation-delay:.3s}.d4{animation-delay:.42s}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.hero-svg text{stroke-dashoffset:0;fill:var(--ink)}}
+@media (max-width:991px){.hero-svg text{font-size:64px}}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-glass py-3">
+  <div class="container">
+    <a class="navbar-brand" href="#hero">Vaishnavi Patil</a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-4">
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+        <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
+        <li class="nav-item"><a class="nav-link" href="#work">Work</a></li>
+        <li class="nav-item mt-2 mt-lg-0"><a class="btn btn-accent btn-sm" href="#contact">Contact me</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7">
+        <p class="in d1 mb-3 fw-semibold"><span class="status-dot me-2"></span>Open to internships &amp; junior UI/UX roles</p>
+        <svg class="hero-svg in d2" viewBox="0 0 620 110" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="82">Vaishnavi Patil</text>
+        </svg>
+        <p class="hero-role text-soft in d3 mt-2">UI/UX designer and MCA final-year student, designing clear, human-centred products &mdash; from research to high-fidelity prototypes.</p>
+        <div class="d-flex flex-wrap gap-3 in d3 mt-4">
+          <a href="#work" class="btn btn-accent">See my case studies</a>
+          <a href="#contact" class="btn btn-outline-ink">Get in touch</a>
+        </div>
+        <div class="d-flex flex-wrap gap-3 in d4 mt-4">
+          <div class="fact-chip"><b>2026</b><span>MCA graduate</span></div>
+          <div class="fact-chip"><b>5</b><span>Design case studies</span></div>
+          <div class="fact-chip"><b>2</b><span>Design internships</span></div>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="hero-art in d3" aria-hidden="true">
+          <div class="blob"></div>
+          <div class="card-ui">
+            <div class="bar w1"></div><div class="bar w2"></div><div class="bar w3"></div>
+            <div class="block"></div>
+          </div>
+          <span class="floating-tag t1">Figma</span>
+          <span class="floating-tag t2">User research</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="marquee mt-5" aria-hidden="true">
+    <div class="track">
+      <span>UI Design</span><span>UX Research</span><span>Product Thinking</span><span>Wireframing</span><span>Prototyping</span><span>Design Systems</span>
+      <span>UI Design</span><span>UX Research</span><span>Product Thinking</span><span>Wireframing</span><span>Prototyping</span><span>Design Systems</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container mt-lg-0">
+    <div class="row g-5">
+      <div class="col-lg-5">
+        <p class="eyebrow">About me</p>
+        <h2 class="display-5 mb-0">Design shaped<br>by software.</h2>
+      </div>
+      <div class="col-lg-7">
+        <p class="text-soft">I'm <strong class="text-ink">Vaishnavi Patil</strong>, an aspiring UI/UX designer with an MCA background and experience in Python full-stack development. I combine analytical thinking with user empathy to turn complex problems into intuitive, accessible experiences across web and mobile.</p>
+        <p class="text-soft">With a foundation in software development and hands-on work on AI-driven and consumer-focused products, I bring a problem-solving mindset and attention to detail to every project.</p>
+        <ul class="check-list mt-4 mb-4">
+          <li>User-first, research-backed design decisions</li>
+          <li>Clean, accessible interfaces with strong hierarchy</li>
+          <li>Comfortable talking to developers — I've written the code myself</li>
+        </ul>
+        <div class="row g-3">
+          <div class="col-sm-6">
+            <div class="edu-card">
+              <b>Master of Computer Applications</b><br>
+              <span>RIT Autonomous Institute, Ishwarpur · 2024–2026</span>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="edu-card">
+              <b>Bachelor of Computer Applications</b><br>
+              <span>Shivaji University · 2021–2024</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="bg-ink">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-7">
+        <p class="eyebrow">Capabilities</p>
+        <h2 class="display-5">What I bring<br>to a team.</h2>
+      </div>
+      <div class="col-lg-5 d-flex align-items-end">
+        <p class="text-soft mb-0">From the first user interview to a developer-ready prototype.</p>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4 in">
+        <div class="skill-card">
+          <h4 style="color: #F5A425;">UI Design</h4>
+          <p>Clean visual interfaces with strong hierarchy, spacing and consistency.</p>
+          <span class="kw-chip">Visual hierarchy</span><span class="kw-chip">Auto layout</span>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 in">
+        <div class="skill-card">
+          <h4 style="color: #F5A425;">UX Design</h4>
+          <p>Turning research into flows, information architecture and interaction patterns.</p>
+          <span class="kw-chip">User flows</span><span class="kw-chip">IA</span>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 in">
+        <div class="skill-card">
+          <h4 style="color: #F5A425;">UX Research</h4>
+          <p>Interviews, surveys, usability testing and affinity mapping.</p>
+          <span class="kw-chip">Interviews</span><span class="kw-chip">Usability testing</span>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 in">
+        <div class="skill-card">
+          <h4 style="color: #F5A425;">Product Thinking</h4>
+          <p>Reading business metrics and user needs together to prioritise the right problems.</p>
+          <span class="kw-chip">Product sense</span><span class="kw-chip">Business metrics</span>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 in">
+        <div class="skill-card">
+          <h4 style="color: #F5A425;">Wireframing &amp; Prototyping</h4>
+          <p>Low to high-fidelity flows and interactive Figma prototypes ready to test.</p>
+          <span class="kw-chip">Figma</span><span class="kw-chip">FigJam</span>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 in">
+        <div class="skill-card">
+          <h4 style="color: #F5A425;">Design Systems</h4>
+          <p>Reusable components and style guides for consistent, scalable products.</p>
+          <span class="kw-chip">Components</span><span class="kw-chip">Consistency</span>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 in">
+        <div class="skill-card">
+          <h4 style="color: #F5A425;">Front-end Development</h4>
+          <p>HTML, CSS, JavaScript and Bootstrap knowledge that bridges design and code.</p>
+          <span class="kw-chip">HTML/CSS</span><span class="kw-chip">JavaScript</span>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 in">
+        <div class="skill-card">
+          <h4 style="color: #F5A425;">AI-Driven UX</h4>
+          <p>Designing human-in-the-loop flows for AI-assisted products people can trust.</p>
+          <span class="kw-chip">Human-in-the-loop</span><span class="kw-chip">Workflow design</span>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 in">
+        <div class="skill-card">
+          <h4 style="color: #F5A425;">Collaboration</h4>
+          <p>Working closely with developers and teams from concept to hand-off.</p>
+          <span class="kw-chip">Dev hand-off</span><span class="kw-chip">Design thinking</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-5">
+      <p class="cat-label">TOOLS &amp; TECH</p>
+      <div class="d-flex flex-wrap gap-2">
+        <span class="badge-soft">Figma</span><span class="badge-soft">FigJam</span><span class="badge-soft">Framer</span>
+        <span class="badge-soft">Claude</span><span class="badge-soft">Stitch</span><span class="badge-soft">Adobe Suite</span>
+        <span class="badge-soft">Microsoft Office</span><span class="badge-soft">HTML</span><span class="badge-soft">CSS</span>
+        <span class="badge-soft">JavaScript</span><span class="badge-soft">Bootstrap</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-7">
+        <p class="eyebrow">Work experience</p>
+        <h2 class="display-5">Where I've<br>put it into practice.</h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-9">
+        <div class="timeline">
+          <div class="timeline-item">
+            <p class="role fw-bold mb-1">UI/UX Design Intern · UptoSkills (Remote)</p>
+            <p class="meta">Feb 2026 – May 2026</p>
+            <ul>
+              <li>Ideated, designed wireframes, <strong>high-fidelity interfaces and interactive prototypes</strong> in Figma, iterating on Team Lead feedback.</li>
+              <li>Served as <strong>Team Captain</strong>, coordinating daily updates and facilitating brainstorming between interns and the Team Lead.</li>
+            </ul>
+          </div>
+          <div class="timeline-item">
+            <p class="role fw-bold mb-1">Python Full Stack Development Intern · Compcare IT Solution</p>
+            <p class="meta">Jan 2026 – May 2026</p>
+            <ul>
+              <li>Developed a responsive <strong>Smart Local Marketplace</strong> web app using Python, HTML5, CSS3, JavaScript, Bootstrap and SQL.</li>
+              <li>Applied UI/UX principles while translating Figma concepts into functional web interfaces, collaborating across design and development.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK / CASE STUDIES -->
+<section id="work">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-7">
+        <p class="eyebrow">Case studies</p>
+        <h2 class="display-5">Projects I've<br>designed end to end.</h2>
+      </div>
+      <div class="col-lg-5 d-flex align-items-end">
+        <p class="text-soft mb-0">A mix of self-initiated concept projects and internship work, documented as full case studies on Behance.</p>
+      </div>
+    </div>
+
+    <div class="row g-4">
+
+      <div class="col-md-6">
+        <div class="proj-card">
+          <div class="proj-top">
+            <span class="proj-tag">Concept project</span>
+            <h3>DocuMate AI</h3>
+            <p>An AI assistant concept for government document applications — replacing office visits and agent fees with one guided chat flow, for students in Tier 2–3 cities.</p>
+            <div class="proj-stats">
+              <div><b>39</b><span>Survey respondents</span></div>
+              <div><b>4</b><span>In-depth interviews</span></div>
+              <div><b>6</b><span>AI-assisted workflows</span></div>
+            </div>
+          </div>
+          <div class="proj-foot">
+            <span class="text-soft small">AI Product Design · UX Research</span>
+            <a class="proj-cta accent" href="https://www.behance.net/vaishnavipatil510" target="_blank" rel="noopener noreferrer">View case study <em>↗</em></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="proj-card">
+          <div class="proj-top">
+            <span class="proj-tag">Concept project</span>
+            <h3>EMORI — Jewellery Redesign</h3>
+            <p>A UX redesign for a custom jewellery e-commerce experience, focused on product discovery and a smoother path to purchase.</p>
+            <div class="proj-stats">
+              <div><b>4</b><span>User journeys</span></div>
+              <div><b>15+</b><span>Usability issues found</span></div>
+            </div>
+          </div>
+          <div class="proj-foot">
+            <span class="text-soft small">UX Research · E-commerce</span>
+            <a class="proj-cta accent" href="https://www.behance.net/gallery/243537459/EMORI-Redesigning-the-Custom-Jewellery-Experience" target="_blank" rel="noopener noreferrer">View case study <em>↗</em></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="proj-card">
+          <div class="proj-top">
+            <span class="proj-tag">Concept project</span>
+            <h3>PillCare — Medicine Reminder</h3>
+            <p>An accessible medication reminder app for elderly users, focused on reducing missed doses through clear visual hierarchy.</p>
+            <div class="proj-stats">
+              <div><b>20+</b><span>Mobile screens</span></div>
+              <div><b>Larger</b><span>Touch targets</span></div>
+            </div>
+          </div>
+          <div class="proj-foot">
+            <span class="text-soft small">UX Design · Mobile App</span>
+            <a class="proj-cta accent" href="https://www.behance.net/gallery/241798647/Medication-Reminder-and-caregiver-Support-App" target="_blank" rel="noopener noreferrer">View case study <em>↗</em></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="proj-card">
+          <div class="proj-top">
+            <span class="proj-tag">Concept project</span>
+            <h3>Finn — Finance Tracking App</h3>
+            <p>A personal finance app for young professionals with a Spend Check-in feature to reflect on spending habits, designed end to end from wireframes to hi-fi.</p>
+            <div class="proj-stats">
+              <div><b>End-to-end</b><span>Wireframe → Hi-fi</span></div>
+            </div>
+          </div>
+          <div class="proj-foot">
+            <span class="text-soft small">Mobile UX · Fintech</span>
+            <a class="proj-cta accent" href="https://www.behance.net/gallery/247458787/Finn-Personal-Finance-Tracking-App-UXUI-Design" target="_blank" rel="noopener noreferrer">View case study <em>↗</em></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="proj-card">
+          <div class="proj-top">
+            <span class="proj-tag">Internship project · Compcare IT Solution</span>
+            <h3>Smart Local Marketplace</h3>
+            <p>A responsive web platform connecting local vendors with nearby customers in Tier 2–3 cities, built during my full-stack internship — from Figma concept to a working interface.</p>
+            <div class="proj-stats">
+              <div><b>Full-stack</b><span>Python · SQL</span></div>
+              <div><b>Design→code</b><span>Figma to build</span></div>
+            </div>
+          </div>
+          <div class="proj-foot">
+            <span class="text-soft small">Web Platform · UX + Development</span>
+            <a class="proj-cta accent" href="https://www.behance.net/gallery/241071155/A-Smart-Local-Market-Place-Website" target="_blank" rel="noopener noreferrer">View case study <em>↗</em></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="text-center mt-5">
+      <a href="https://www.behance.net/vaishnavipatil510" target="_blank" rel="noopener noreferrer" class="btn btn-outline-ink">View all work on Behance</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-panel">
+      <p class="eyebrow position-relative" style="z-index:1;color:var(--accent)">Get in touch</p>
+      <h2>Let's design something people actually enjoy using.</h2>
+      <p class="text-soft position-relative" style="z-index:1;max-width:32rem">I'm looking for internships and entry-level UI/UX roles. If you're building something meaningful, I'd love to help.</p>
+      <div class="contact-row">
+        <a href="mailto:vaishnavi.s.patil05@gmail.com" class="btn btn-accent">Email me</a>
+        <a href="tel:+918788083990" class="btn btn-outline-cream">Call me</a>
+      </div>
+      <div class="contact-links">
+        <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener" class="contact-link-card">LinkedIn ↗</a>
+        <a href="https://www.behance.net/vaishnavipatil510" target="_blank" rel="noopener" class="contact-link-card">Behance ↗</a>
+        <a href="https://vaishnavipatil.com" target="_blank" rel="noopener" class="contact-link-card">vaishnavipatil.com ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>Designed and built by Vaishnavi Patil · 2026</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
