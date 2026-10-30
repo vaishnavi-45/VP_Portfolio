@@ -3,505 +3,867 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vaishnavi Patil — UI/UX Designer</title>
+<title>Vaishnavi Patil | UI/UX Designer</title>
+<meta name="description" content="Portfolio of Vaishnavi Patil, a UI/UX designer who joins research, design and front-end development. Follow the thread.">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Caveat:wght@600;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box}
+/* =========================================================
+   TOKENS: dark ink + one blue accent
+   ========================================================= */
 :root{
-  --cream:#FBF3E6;
-  --ink:#1A1712;
-  --ink-soft:rgba(26,23,18,.62);
-  --accent:#F5A425;
-  --accent-dark:#D6841A;
-  --line:rgba(26,23,18,.13);
-  --display:'Bricolage Grotesque',system-ui,sans-serif;
-  --body:'Figtree',system-ui,sans-serif;
-  --script:'Caveat',cursive;
+  --bg:#070a12; --card:rgba(12,18,32,.9); --line:rgba(140,170,255,.16);
+  --text:#e9edf8; --soft:#9aa6c2; --blue:#4d8dff; --blue-2:#8db6ff;
+  --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+  --sans:'Hanken Grotesk',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
 }
-html{scroll-behavior:smooth}
-body{font-family:var(--body);background:var(--cream);color:var(--ink);line-height:1.65}
-a{text-decoration:none;color:inherit}
-h1,h2,h3,h4{font-family:var(--display);letter-spacing:-.02em;line-height:1.07}
-section{padding:clamp(4rem,8vw,7rem) 0}
-.text-soft{color:var(--ink-soft)}
-.bg-ink{background:var(--ink)!important;color:var(--cream)}
-.bg-ink .text-soft{color:rgba(251,243,230,.62)}
-.accent{color:var(--accent)}
-.eyebrow{font-size:.82rem;font-weight:600;color:var(--accent-dark);margin-bottom:.6rem}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{position:relative;margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.65;overflow-x:clip}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:400;letter-spacing:-.01em;line-height:1.02;margin:0}
+p{margin:0}
+.soft{color:var(--soft)}
+:focus-visible{outline:2px solid var(--blue-2);outline-offset:4px;border-radius:8px}
+section{position:relative;z-index:2}
+.wrap{width:min(1120px,100% - 40px);margin-inline:auto}
+.h-xl{font-size:clamp(2.8rem,6.4vw,5.4rem)}
 
-/* buttons */
-.btn-accent{background:var(--accent);border-color:var(--accent);color:var(--ink);font-weight:600;border-radius:100px;padding:.75rem 1.6rem}
-.btn-accent:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:var(--ink)}
-.btn-outline-ink{border:1.5px solid var(--ink);color:var(--ink);border-radius:100px;font-weight:600;padding:.72rem 1.55rem}
-.btn-outline-ink:hover{background:var(--ink);color:var(--cream)}
-.btn-outline-cream{border:1.5px solid var(--cream);color:var(--cream);border-radius:100px;font-weight:600;padding:.72rem 1.55rem}
-.btn-outline-cream:hover{background:var(--cream);color:var(--ink)}
+/* =========================================================
+   THE THREAD (one overlay SVG sized to the whole page)
+   ========================================================= */
+#thread{position:absolute;top:0;left:0;z-index:1;pointer-events:none;overflow:visible}
+#thread path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+#thread .ghost{stroke:var(--blue);stroke-opacity:.09;stroke-width:1.5;stroke-dasharray:3 9}
+#thread .glow{stroke:var(--blue);stroke-opacity:.22;stroke-width:9}
+#thread .line{stroke:var(--blue-2);stroke-width:2.4}
+#tip{opacity:0;transition:opacity .25s}
+#tip.on{opacity:1}
+#tip .halo{fill:var(--blue);fill-opacity:.28;animation:halo 1.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+#tip .dot{fill:#fff}
+@keyframes halo{50%{transform:scale(1.6);fill-opacity:.1}}
 
-/* NAVBAR - glass */
-.navbar-glass{position:fixed;top:0;width:100%;z-index:1030;background:rgba(251,243,230,.55);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);border-bottom:1px solid var(--line);transition:background .3s}
-.navbar-glass .navbar-brand{font-family:var(--display);font-weight:700;color:var(--ink)}
-.navbar-glass .nav-link{color:var(--ink);font-weight:500;font-size:.95rem;opacity:.75}
-.navbar-glass .nav-link:hover{opacity:1;color:var(--accent-dark)}
+/* =========================================================
+   NAV
+   ========================================================= */
+.nav{position:fixed;top:0;left:0;right:0;z-index:60;padding:14px 0;transition:background .3s,backdrop-filter .3s,border-color .3s;border-bottom:1px solid transparent}
+.nav.solid{background:rgba(7,10,18,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between}
+.mono{font-family:var(--serif);font-style:italic;font-size:1.7rem;line-height:1}
+.mono i{color:var(--blue);font-style:normal}
+.nav ul{display:flex;gap:1.7rem;list-style:none;margin:0;padding:0;align-items:center}
+.nav a.l{font-size:.93rem;color:var(--soft);transition:color .2s;position:relative;padding:.2rem 0}
+.nav a.l::after{content:"";position:absolute;left:0;bottom:-3px;height:2px;width:100%;background:var(--blue);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.nav a.l:hover,.nav a.l.on{color:var(--text)}
+.nav a.l.on::after{transform:scaleX(1)}
+.pill-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1.2rem;border-radius:999px;font-weight:500;font-size:.93rem;border:1px solid var(--blue);color:var(--text);transition:background .25s,transform .25s}
+.pill-btn:hover{background:var(--blue);transform:translateY(-2px)}
+.pill-btn.fill{background:var(--blue)}
+.pill-btn.fill:hover{background:var(--blue-2);color:#06101f}
+@media(max-width:820px){.nav a.l{display:none}}
 
-/* HERO */
-#hero{padding-top:8.5rem}
-.status-dot{width:9px;height:9px;border-radius:50%;background:var(--accent);display:inline-block;animation:pulse 2s infinite}
-.hero-svg{width:100%;height:auto;max-width:640px}
-.hero-svg text{font-family:var(--script);font-size:82px;fill:none;stroke:var(--ink);stroke-width:2;paint-order:stroke;stroke-dasharray:2600;stroke-dashoffset:2600;animation:draw 2.6s ease forwards, fillin 1s ease forwards 2.4s}
-.hero-role{max-width:32rem;font-size:clamp(1.05rem,1.8vw,1.25rem)}
-.fact-chip{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:16px;padding:.9rem 1.2rem;backdrop-filter:blur(6px)}
-.fact-chip b{display:block;font-family:var(--display);font-size:1.3rem;line-height:1}
-.fact-chip span{font-size:.78rem;color:var(--ink-soft)}
+/* =========================================================
+   1. HERO
+   ========================================================= */
+.hero{min-height:100svh;padding:110px 0 70px;display:flex;align-items:center}
+.hero::before{content:"";position:absolute;z-index:-1;right:-12%;top:-10%;width:70vw;height:70vw;border-radius:50%;background:radial-gradient(closest-side,rgba(77,141,255,.22),transparent)}
+.status{display:inline-flex;align-items:center;gap:.6rem;font-size:.92rem;color:var(--soft);margin-bottom:1rem}
+.status i{width:9px;height:9px;border-radius:50%;background:var(--blue);animation:pulse 2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(77,141,255,.2)}}
+.nm{width:100%;max-width:700px;height:auto;display:block;overflow:visible;filter:drop-shadow(0 0 14px rgba(77,141,255,.35))}
+.nm text{font-family:var(--serif);font-style:italic;font-size:190px}
+.nm tspan{fill:var(--text);stroke:var(--blue-2);stroke-width:1.6;stroke-opacity:0}
+.go .nm tspan{animation:write 2.8s cubic-bezier(.5,.1,.3,1) both;animation-delay:calc(var(--d)*1s)}
+@keyframes write{
+  0%{fill:transparent;stroke-opacity:1;stroke-dasharray:2000;stroke-dashoffset:2000}
+  55%{fill:transparent;stroke-opacity:1;stroke-dasharray:2000;stroke-dashoffset:0}
+  100%{fill:var(--text);stroke-opacity:0;stroke-dasharray:2000;stroke-dashoffset:0}
+}
+.tagline{font-family:var(--serif);font-size:clamp(1.7rem,3.2vw,2.5rem);margin-top:.6rem;display:flex;gap:.55rem;flex-wrap:wrap;align-items:flex-end}
+.rot{display:inline-block;height:1.1em;line-height:1.1;overflow:hidden;color:var(--blue-2);font-style:italic}
+.rot div{animation:rot 9s cubic-bezier(.7,0,.2,1) infinite}
+.rot span{display:block;height:1.1em}
+@keyframes rot{0%,28%{transform:translateY(0)}33%,61%{transform:translateY(-25%)}66%,94%{transform:translateY(-50%)}100%{transform:translateY(-75%)}}
+.intro{max-width:34rem;margin-top:1.2rem;font-size:1.06rem}
+.cta-row{display:flex;flex-wrap:wrap;gap:.9rem;margin-top:1.8rem}
+.cue{display:flex;align-items:center;gap:.8rem;margin-top:2.4rem;color:var(--soft);font-size:.9rem}
+.tnode{display:block;width:16px;height:16px;border-radius:50%;border:2px solid var(--blue);background:var(--bg);position:relative;flex:none;transition:background .4s,box-shadow .4s}
+.tnode::after{content:"";position:absolute;inset:-9px;border-radius:50%;border:1px solid var(--blue);opacity:0;transform:scale(.5)}
+.on>.tnode,.tnode.on{background:var(--blue);box-shadow:0 0 18px rgba(77,141,255,.7)}
+.on>.tnode::after,.tnode.on::after{animation:ping 1.8s ease-out infinite}
+@keyframes ping{0%{opacity:.7;transform:scale(.5)}100%{opacity:0;transform:scale(1.4)}}
+.rv-hero{opacity:0;transform:translateY(18px)}
+.go .rv-hero{animation:up .9s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--hd,0s)}
+@keyframes up{to{opacity:1;transform:none}}
 
-.hero-art{position:relative;aspect-ratio:1/1;max-width:430px;margin:0 auto}
-.hero-art .blob{position:absolute;inset:6%;border-radius:50%;background:var(--accent)}
-.hero-art .card-ui{position:absolute;left:12%;right:12%;top:12%;bottom:10%;background:var(--cream);border-radius:22px;padding:1.1rem;box-shadow:0 30px 60px rgba(26,23,18,.3);display:flex;flex-direction:column;gap:.6rem;animation:float 6s ease-in-out infinite}
-.card-ui .bar{height:9px;border-radius:6px;background:var(--line)}
-.card-ui .bar.w1{width:45%;background:var(--ink)}.card-ui .bar.w2{width:78%}.card-ui .bar.w3{width:58%}
-.card-ui .block{flex:1;min-height:80px;border-radius:14px;background:var(--ink);position:relative;overflow:hidden}
-.card-ui .block::after{content:"";position:absolute;width:60%;aspect-ratio:1;border-radius:50%;background:var(--accent);right:-15%;bottom:-25%}
-.floating-tag{position:absolute;background:var(--ink);color:var(--cream);font-size:.78rem;font-weight:600;padding:.45rem .95rem;border-radius:100px;animation:float 5s ease-in-out infinite}
-.floating-tag.t1{top:6%;right:-4%;animation-delay:-1s}
-.floating-tag.t2{bottom:18%;left:-6%;background:var(--cream);color:var(--ink);border:1.5px solid var(--ink);animation-delay:-2.5s}
+/* illustration slot */
+.illu{position:relative;width:min(100%,440px);aspect-ratio:4/5;margin-inline:auto;border-radius:30px;border:1px solid var(--line);background:linear-gradient(160deg,rgba(77,141,255,.16),rgba(12,18,32,.4));display:grid;place-items:center;animation:bob 7s ease-in-out infinite}
+.illu img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.illu .ph{color:var(--soft);font-size:.9rem;text-align:center;padding:1.5rem}
+.illu.has .ph{display:none}
+.illu .orbit{position:absolute;inset:-9%;border-radius:50%;border:1px dashed rgba(141,182,255,.28);animation:spin 40s linear infinite;pointer-events:none}
+.illu .orbit::after{content:"";position:absolute;top:8%;left:50%;width:10px;height:10px;border-radius:50%;background:var(--blue-2);box-shadow:0 0 14px var(--blue)}
+.chipf{position:absolute;padding:.4rem .95rem;border-radius:999px;background:rgba(7,10,18,.85);border:1px solid var(--line);font-size:.85rem;animation:bob 5s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-10px)}}
+@keyframes spin{to{rotate:360deg}}
 
-/* marquee */
-.marquee{background:var(--ink);color:var(--cream);overflow:hidden;white-space:nowrap;padding:.9rem 0}
-.track{display:inline-flex;gap:2.4rem;animation:slide 26s linear infinite}
-.track span{font-family:var(--display);font-weight:700;font-size:1.2rem;display:inline-flex;align-items:center;gap:2.4rem}
-.track span::after{content:"✦";color:var(--accent);font-size:.95rem}
+/* =========================================================
+   2. PROJECTS (stacking cards, thread runs behind)
+   ========================================================= */
+.proj{padding:12vh 0 6vh}
+.proj-head{max-width:640px;margin-bottom:9vh}
+.proj-head p{margin-top:1rem;font-size:1.05rem}
+.stack{position:relative;padding-bottom:8vh}
+.pcard{position:sticky;top:calc(84px + var(--i)*20px);display:grid;grid-template-columns:1.1fr .9fr;gap:2rem;max-width:1080px;margin:0 auto 20vh;padding:2rem;border:1px solid var(--line);border-radius:28px;background:var(--card);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);box-shadow:0 30px 80px rgba(0,0,0,.5);transform-origin:50% 0;will-change:transform}
+.pcard:last-child{margin-bottom:0}
+.pcard h3{font-size:clamp(2rem,3.6vw,3rem);margin:.7rem 0 .6rem}
+.pmeta{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center;font-size:.86rem;color:var(--soft)}
+.badge{background:var(--blue);color:#06101f;font-weight:600;border-radius:999px;padding:.15rem .8rem;font-size:.8rem}
+.pcard p.d{color:var(--soft)}
+.stats{list-style:none;display:flex;flex-wrap:wrap;gap:.8rem 1.6rem;padding:0;margin:1.1rem 0}
+.stats b{display:block;font-family:var(--serif);font-size:2rem;line-height:1;color:var(--blue-2);font-weight:400}
+.stats span{font-size:.78rem;color:var(--soft)}
+.pts{padding-left:1.1rem;margin:0 0 1.3rem;color:var(--soft);font-size:.92rem}
+.pts li{margin-bottom:.4rem}
+.plink{display:inline-flex;gap:.5rem;align-items:center;font-weight:500;color:var(--blue-2);border-bottom:1px solid transparent;transition:border-color .2s,gap .2s}
+.plink:hover{gap:.9rem;border-color:var(--blue-2)}
+.cover{position:relative;border-radius:20px;overflow:hidden;min-height:280px;border:1px solid var(--line);background:linear-gradient(160deg,#10224f,#0a1226)}
+.cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2}
+.cover svg{position:absolute;inset:0;width:100%;height:100%}
+.cover .hint{position:absolute;left:14px;bottom:10px;font-size:.74rem;color:var(--soft);z-index:1}
+.cover.has svg,.cover.has .hint{display:none}
+.cover .a{fill:rgba(77,141,255,.14);stroke:var(--blue);stroke-width:1.5}
+.cover .b{fill:var(--blue)}
+.cover .l{fill:none;stroke:rgba(233,237,248,.55);stroke-width:3;stroke-linecap:round}
+.cover svg g.fl{animation:bob 6s ease-in-out infinite}
+@media(max-width:900px){
+  .pcard{grid-template-columns:1fr;padding:1.3rem;top:calc(70px + var(--i)*14px);margin-bottom:16vh;gap:1rem}
+  .cover{min-height:130px;order:-1}
+  .pts{display:none}
+}
+@media(max-height:640px){.pcard{position:relative;top:auto;margin-bottom:2rem}}
 
-/* ABOUT */
-.check-list{list-style:none;padding:0;display:grid;gap:.65rem}
-.check-list li{display:flex;gap:.7rem;align-items:flex-start;font-weight:500}
-.check-list li::before{content:"";width:22px;height:22px;flex:none;margin-top:.15rem;border-radius:50%;background:var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231A1712' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/65% no-repeat}
-.edu-card{border:1px solid var(--line);border-radius:16px;padding:1.1rem 1.3rem}
-.edu-card b{font-size:.98rem}
-.edu-card span{font-size:.82rem;color:var(--ink-soft)}
+/* =========================================================
+   3. PROCESS (pinned stage, thread draws the circle)
+   ========================================================= */
+#process{height:780vh}
+.stage{position:sticky;top:0;height:100vh;height:100svh;display:grid;place-items:center;overflow:hidden}
+.stage-head{position:absolute;left:max(20px,calc((100vw - 1120px)/2));top:92px;max-width:360px}
+.stage-head h2{font-size:clamp(2.2rem,4.6vw,3.8rem)}
+.stage-head p{margin-top:.6rem;font-size:.95rem}
+.ring{position:relative;--S:min(66svh,88vw,640px);width:var(--S);height:var(--S);margin-top:36px}
+.ring svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.ring .trk{fill:none;stroke:var(--blue);stroke-opacity:.14;stroke-width:1.5;stroke-dasharray:3 9}
+.ring .inner{fill:none;stroke:rgba(141,182,255,.12);stroke-width:1;stroke-dasharray:2 12;transform-origin:300px 300px;animation:spin 60s linear infinite}
+.ring .rg{fill:none;stroke:var(--blue);stroke-opacity:.24;stroke-width:12;stroke-linecap:round}
+.ring .rl{fill:none;stroke:var(--blue-2);stroke-width:2.6;stroke-linecap:round}
+.ring .rn{fill:var(--bg);stroke:var(--blue);stroke-width:2.5;transition:fill .35s,r .35s}
+.ring .rn.hit{fill:var(--blue)}
+.ring .rn.cur{fill:#fff;r:11}
+#rtip{opacity:0}
+#rtip .halo{fill:var(--blue);fill-opacity:.28}
+#rtip .dot{fill:#fff}
+.ring.closed .rl{animation:glowp 2.4s ease-in-out infinite}
+@keyframes glowp{50%{stroke-width:4}}
+.lab{position:absolute;display:flex;gap:.5rem;align-items:baseline;font-size:.98rem;color:var(--soft);opacity:.28;transition:opacity .4s,color .4s;width:max-content;max-width:200px;line-height:1.25}
+.lab small{font-family:var(--serif);font-style:italic;font-size:1rem;color:var(--blue)}
+.lab.hit{opacity:1}
+.lab.cur{color:var(--text)}
+.lab.r{text-align:right;flex-direction:row-reverse}
+.center{position:absolute;left:50%;top:50%;width:54%;transform:translate(-50%,-50%);text-align:center}
+.ps{position:absolute;left:0;right:0;top:50%;transform:translateY(-44%);opacity:0;transition:opacity .45s,transform .55s cubic-bezier(.2,.7,.2,1);pointer-events:none}
+.ps.on{opacity:1;transform:translateY(-50%)}
+.ps .pn{font-family:var(--serif);font-style:italic;color:var(--blue);font-size:1.15rem}
+.ps h3{font-size:clamp(1.5rem,2.8vw,2.3rem);margin:.15rem 0 .6rem}
+.ps p{font-size:.93rem;color:var(--soft);line-height:1.5}
+@media(max-width:760px){
+  .lab span{display:none}
+  .lab small{font-size:.95rem}
+  .stage-head{top:78px}
+  .stage-head p{display:none}
+  .ps p{font-size:.78rem}
+  .center{width:60%}
+  .ring{margin-top:48px}
+}
 
-/* SKILLS */
-.skill-card{border:1px solid var(--line);border-radius:18px;padding:1.5rem;height:100%;background:#fff;transition:border-color .25s,transform .25s}
-.skill-card:hover{border-color:var(--accent);transform:translateY(-4px)}
-.skill-card h4{font-size:1.15rem;margin-bottom:.4rem}
-.skill-card p{font-size:.9rem;color:var(--ink-soft);min-height:3.3em}
-.kw-chip{display:inline-block;font-size:.75rem;font-weight:600;color:var(--accent-dark);border:1px solid rgba(214,132,26,.4);border-radius:100px;padding:.15rem .65rem;margin:.15rem .3rem .15rem 0}
-.badge-soft{background:rgba(255,255,255,.08);border:1px solid rgba(251,243,230,.22);color:var(--cream);font-weight:500;font-size:.85rem;border-radius:100px;padding:.5rem 1.05rem;transition:background .2s,border-color .2s}
-.badge-soft:hover{background:var(--accent);border-color:var(--accent);color:var(--ink)}
-.cat-label{font-size:.78rem;letter-spacing:.4px;color:var(--accent);font-weight:700;margin-bottom:.7rem}
+/* =========================================================
+   KNOTS (rows that sit on the thread: skills, experience, ...)
+   ========================================================= */
+.knot{display:grid;grid-template-columns:1fr 100px 1fr;align-items:start;margin-bottom:14vh}
+.knot .kc{grid-column:1;grid-row:1;text-align:right}
+.knot.r .kc{grid-column:3;text-align:left}
+.knot .tnode{grid-column:2;grid-row:1;justify-self:center;margin-top:.95rem}
+.kc h3{font-size:clamp(1.9rem,3.4vw,2.8rem);margin-bottom:.4rem}
+.kc>p{color:var(--soft);max-width:28rem;margin-bottom:1.1rem}
+.knot:not(.r) .kc>p{margin-left:auto}
+.kc,.kc>*{will-change:auto}
+.kc h3,.kc>p{opacity:0;transform:translateY(14px);transition:opacity .7s,transform .7s}
+.knot.on .kc h3,.knot.on .kc>p{opacity:1;transform:none}
+.knot.on .kc>p{transition-delay:.1s}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:flex-end}
+.knot.r .chips{justify-content:flex-start}
+.chip{padding:.4rem .95rem;border-radius:999px;border:1px solid var(--line);background:rgba(12,18,32,.85);font-size:.9rem;opacity:0;transform:translateY(12px) scale(.94);transition:opacity .5s,transform .5s,border-color .2s,color .2s;transition-delay:calc(var(--c,0)*60ms + .2s)}
+.knot.on .chip{opacity:1;transform:none}
+.chip:hover{border-color:var(--blue);color:var(--blue-2)}
+@media(max-width:820px){
+  .knot,.knot.r{display:block;position:relative;padding-left:52px;margin-bottom:11vh}
+  .knot .kc,.knot.r .kc{text-align:left}
+  .knot .tnode{position:absolute;left:12px;top:.95rem}
+  .knot:not(.r) .kc>p{margin-left:0}
+  .chips,.knot.r .chips{justify-content:flex-start}
+}
 
-/* EXPERIENCE timeline */
-.timeline{position:relative;padding-left:2.2rem;border-left:2px solid var(--line)}
-.timeline-item{position:relative;padding-bottom:2.6rem}
-.timeline-item:last-child{padding-bottom:0}
-.timeline-item::before{content:"";position:absolute;left:-2.42rem;top:.35rem;width:14px;height:14px;border-radius:50%;background:var(--accent);border:3px solid var(--cream);box-shadow:0 0 0 2px var(--accent)}
-.timeline-item .role{font-size:1.2rem}
-.timeline-item .meta{font-size:.85rem;color:var(--ink-soft);margin-bottom:.6rem}
-.timeline-item ul{padding-left:1.1rem;margin-bottom:0}
-.timeline-item li{font-size:.93rem;color:var(--ink-soft);margin-bottom:.35rem}
-.timeline-item li strong{color:var(--ink)}
+/* skills */
+.skills{padding:16vh 0 4vh}
+.sec-head{max-width:560px;margin-bottom:12vh}
+.sec-head p{margin-top:1rem;font-size:1.05rem}
+.sk-head{margin-left:auto}
+@media(max-width:820px){.sk-head{margin-left:0;padding-left:52px}}
 
-/* PROJECTS */
-.proj-card{border:1px solid var(--line);border-radius:20px;background:#fff;height:100%;display:flex;flex-direction:column;overflow:hidden;transition:transform .25s,box-shadow .25s}
-.proj-card:hover{transform:translateY(-5px);box-shadow:0 20px 45px rgba(26,23,18,.12)}
-.proj-top{padding:1.6rem 1.6rem 1rem;flex:1}
-.proj-tag{font-size:.72rem;font-weight:700;letter-spacing:.3px;color:var(--accent-dark);background:rgba(245,164,37,.14);padding:.28rem .75rem;border-radius:100px;display:inline-block;margin-bottom:.8rem}
-.proj-card h3{font-size:1.3rem;margin-bottom:.5rem}
-.proj-card p{font-size:.92rem;color:var(--ink-soft);margin-bottom:.9rem}
-.proj-stats{display:flex;gap:1.4rem;margin-bottom:.9rem;flex-wrap:wrap}
-.proj-stats div b{display:block;font-family:var(--display);font-size:1.25rem;color:var(--ink);line-height:1}
-.proj-stats div span{font-size:.72rem;color:var(--ink-soft)}
-.proj-foot{border-top:1px solid var(--line);padding:1rem 1.6rem;display:flex;justify-content:space-between;align-items:center}
-.proj-cta{font-weight:600;font-size:.9rem;display:inline-flex;align-items:center;gap:.4rem}
-.proj-cta em{font-style:normal;transition:transform .2s}
-.proj-card:hover .proj-cta em{transform:translate(3px,-3px)}
+/* experience */
+.exp{padding:10vh 0 4vh}
+.braid{display:flex;align-items:center;gap:1rem;margin-top:1.6rem;max-width:420px}
+.braid svg{flex:1;height:60px;overflow:visible}
+.braid path{fill:none;stroke-width:2.2;stroke-linecap:round}
+.braid .p1{stroke:var(--blue-2);stroke-dasharray:7 9;animation:flow 3s linear infinite}
+.braid .p2{stroke:var(--text);stroke-opacity:.7}
+@keyframes flow{to{stroke-dashoffset:-32}}
+.braid span{font-size:.85rem;color:var(--soft)}
+.xcard{display:inline-block;max-width:520px;text-align:left;padding:1.5rem 1.6rem;border:1px solid var(--line);border-radius:22px;background:var(--card);opacity:0;transform:translateY(18px);transition:opacity .7s .15s,transform .7s .15s,border-color .3s}
+.knot.on .xcard{opacity:1;transform:none}
+.xcard:hover{border-color:rgba(77,141,255,.55)}
+.xmeta{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;font-size:.86rem;color:var(--soft);margin-bottom:.5rem}
+.tag{border:1px solid rgba(77,141,255,.5);color:var(--blue-2);border-radius:999px;padding:.05rem .7rem;font-size:.78rem}
+.xcard h4{font-size:1.7rem;margin-bottom:.1rem}
+.xcard .org{color:var(--soft);margin-bottom:.8rem}
+.xcard ul{margin:0;padding-left:1.1rem;color:var(--soft);font-size:.93rem}
+.xcard li{margin-bottom:.45rem}
+mark{background:linear-gradient(rgba(77,141,255,.38),rgba(77,141,255,.38)) no-repeat 0 88%/0 62%;color:var(--text);padding:0 .12em;margin:0 -.12em;transition:background-size .9s .6s;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.knot.on mark{background-size:100% 62%}
+.bridge{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin:.9rem 0 0;font-size:.85rem}
+.bridge b{font-weight:500;border:1px solid var(--line);border-radius:10px;padding:.2rem .65rem;background:rgba(77,141,255,.1)}
+.bridge i{color:var(--blue);font-style:normal}
 
-/* CONTACT */
-.contact-panel{background:linear-gradient(135deg,var(--ink) 0%,#26201A 100%);color:var(--cream);border-radius:30px;padding:clamp(2.2rem,6vw,4.5rem);position:relative;overflow:hidden}
-.contact-panel::before{content:"";position:absolute;width:420px;aspect-ratio:1;border-radius:50%;background:rgba(245,164,37,.18);right:-140px;top:-160px}
-.contact-panel::after{content:"";position:absolute;width:300px;aspect-ratio:1;border-radius:50%;border:1.5px dashed rgba(251,243,230,.25);left:-90px;bottom:-120px}
-.contact-panel h2{font-size:clamp(2.2rem,5.5vw,3.6rem);max-width:14ch;position:relative;z-index:1}
-.contact-row{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.6rem}
-.contact-links{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2.2rem;position:relative;z-index:1}
-.contact-link-card{background:rgba(251,243,230,.07);border:1px solid rgba(251,243,230,.2);border-radius:16px;padding:.9rem 1.4rem;display:flex;align-items:center;gap:.7rem;font-weight:600;transition:background .2s,border-color .2s,transform .2s}
-.contact-link-card:hover{background:var(--accent);color:var(--ink);border-color:var(--accent);transform:translateY(-3px)}
+/* education */
+.edu{padding:6vh 0 2vh}
+.egrid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;max-width:560px}
+.knot .egrid{margin-left:auto}
+.knot.r .egrid{margin-left:0}
+.ei{border:1px solid var(--line);border-radius:16px;padding:.9rem 1.1rem;background:var(--card);text-align:left;opacity:0;transform:translateY(12px);transition:opacity .6s,transform .6s;transition-delay:calc(var(--c,0)*90ms + .2s)}
+.knot.on .ei{opacity:1;transform:none}
+.ei b{display:block;font-weight:500;font-size:.95rem;line-height:1.3}
+.ei span{font-size:.8rem;color:var(--soft)}
+@media(max-width:820px){.egrid{grid-template-columns:1fr}}
 
-footer{text-align:center;padding:2rem 0;font-size:.85rem;color:var(--ink-soft)}
+/* contact */
+.contact{padding:10vh 0 6vh;text-align:center}
+.end-node{margin:0 auto 2rem}
+.contact h2{font-size:clamp(3rem,8vw,7rem);max-width:12ch;margin:0 auto}
+.contact .sub{margin:1.2rem auto 3rem;max-width:30rem}
+.links{list-style:none;padding:0;margin:0 auto;max-width:760px;text-align:left}
+.links li{opacity:0;transform:translateY(16px);transition:opacity .6s,transform .6s;transition-delay:calc(var(--c,0)*90ms)}
+.contact.on .links li{opacity:1;transform:none}
+.links a{display:grid;grid-template-columns:150px 1fr auto;gap:1rem;align-items:baseline;padding:1.1rem .3rem;border-top:1px solid var(--line);transition:padding .3s,background .3s}
+.links li:last-child a{border-bottom:1px solid var(--line)}
+.links a:hover{padding-left:1.1rem;background:rgba(77,141,255,.08)}
+.links .k{color:var(--soft);font-size:.92rem}
+.links .v{font-family:var(--serif);font-size:clamp(1.3rem,2.6vw,1.9rem);word-break:break-word}
+.links .ar{color:var(--blue-2);transition:transform .25s}
+.links a:hover .ar{transform:translate(4px,-4px)}
+@media(max-width:600px){.links a{grid-template-columns:1fr auto}.links .k{grid-column:1/-1}}
+footer{position:relative;z-index:2;text-align:center;padding:2.5rem 0 3rem;color:var(--soft);font-size:.85rem}
+footer a{color:var(--blue-2)}
 
-/* keyframes */
-@keyframes pulse{50%{box-shadow:0 0 0 7px rgba(245,164,37,.25)}}
-@keyframes float{50%{transform:translateY(-12px)}}
-@keyframes slide{to{transform:translateX(-50%)}}
-@keyframes draw{to{stroke-dashoffset:0}}
-@keyframes fillin{to{fill:var(--ink)}}
-@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-.in{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
-.d1{animation-delay:.05s}.d2{animation-delay:.18s}.d3{animation-delay:.3s}.d4{animation-delay:.42s}
+/* generic reveal */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .8s,transform .8s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
 
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.hero-svg text{stroke-dashoffset:0;fill:var(--ink)}}
-@media (max-width:991px){.hero-svg text{font-size:64px}}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rv,.rv-hero,.chip,.ei,.xcard,.links li,.kc h3,.kc>p{opacity:1!important;transform:none!important}
+  .nm tspan{fill:var(--text)!important}
+  .rot div{transform:none}
+}
 </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-glass py-3">
-  <div class="container">
-    <a class="navbar-brand" href="#hero">Vaishnavi Patil</a>
-    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="nav">
-      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-4">
-        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-        <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
-        <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
-        <li class="nav-item"><a class="nav-link" href="#work">Work</a></li>
-        <li class="nav-item mt-2 mt-lg-0"><a class="btn btn-accent btn-sm" href="#contact">Contact me</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<!-- the thread: drawn and positioned by JavaScript -->
+<svg id="thread" aria-hidden="true">
+  <g id="pA"><path class="ghost"/><path class="glow"/><path class="line"/></g>
+  <g id="pB"><path class="ghost"/><path class="glow"/><path class="line"/></g>
+  <g id="tip"><circle class="halo" r="14"/><circle class="dot" r="5"/></g>
+</svg>
 
-<!-- HERO -->
-<section id="hero">
-  <div class="container">
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a href="#home" class="mono" aria-label="Vaishnavi Patil, back to top">VP<i>.</i></a>
+    <ul>
+      <li><a class="l" href="#projects">Projects</a></li>
+      <li><a class="l" href="#process">Process</a></li>
+      <li><a class="l" href="#skills">Skills</a></li>
+      <li><a class="l" href="#experience">Experience</a></li>
+      <li><a class="pill-btn" href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+<!-- =============== 1. HOME =============== -->
+<section class="hero" id="home">
+  <div class="wrap">
     <div class="row align-items-center g-5">
       <div class="col-lg-7">
-        <p class="in d1 mb-3 fw-semibold"><span class="status-dot me-2"></span>Open to internships &amp; junior UI/UX roles</p>
-        <svg class="hero-svg in d2" viewBox="0 0 620 110" xmlns="http://www.w3.org/2000/svg">
-          <text x="0" y="82">Vaishnavi Patil</text>
+        <p class="status rv-hero" style="--hd:.1s">Open to internships &amp; junior UI/UX roles</p>
+
+        <!-- The name is written letter by letter by the "thread" (SVG stroke animation) -->
+        <h1 class="visually-hidden">Vaishnavi Patil</h1>
+        <svg class="nm" viewBox="0 0 800 400" role="img" aria-label="Vaishnavi Patil">
+          <text data-split x="0" y="175">Vaishnavi</text>
+          <text data-split x="110" y="365">Patil</text>
         </svg>
-        <p class="hero-role text-soft in d3 mt-2">UI/UX designer and MCA final-year student, designing clear, human-centred products &mdash; from research to high-fidelity prototypes.</p>
-        <div class="d-flex flex-wrap gap-3 in d3 mt-4">
-          <a href="#work" class="btn btn-accent">See my case studies</a>
-          <a href="#contact" class="btn btn-outline-ink">Get in touch</a>
+
+        <p class="tagline rv-hero" style="--hd:3.1s">
+          <span>I design</span>
+          <span class="rot" aria-hidden="true"><div><span>clear</span><span> human</span><span> AI-aware</span><span> clear</span></div></span>
+          <span>products.</span>
+        </p>
+        <p class="intro soft rv-hero" style="--hd:3.3s">UI/UX designer with an MCA background. I turn complex problems into intuitive, accessible experiences across web and mobile, and since I also build with Python and JavaScript, I design things that can actually ship.</p>
+        <div class="cta-row rv-hero" style="--hd:3.5s">
+          <a class="pill-btn fill" href="#projects">See my projects</a>
+          <a class="pill-btn" href="#contact">Say hello</a>
         </div>
-        <div class="d-flex flex-wrap gap-3 in d4 mt-4">
-          <div class="fact-chip"><b>2026</b><span>MCA graduate</span></div>
-          <div class="fact-chip"><b>5</b><span>Design case studies</span></div>
-          <div class="fact-chip"><b>2</b><span>Design internships</span></div>
-        </div>
+        <div class="cue rv-hero" style="--hd:3.7s"><span class="tnode" id="threadStart"></span></div>
       </div>
+
       <div class="col-lg-5">
-        <div class="hero-art in d3" aria-hidden="true">
-          <div class="blob"></div>
-          <div class="card-ui">
-            <div class="bar w1"></div><div class="bar w2"></div><div class="bar w3"></div>
-            <div class="block"></div>
-          </div>
-          <span class="floating-tag t1">Figma</span>
-          <span class="floating-tag t2">User research</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="marquee mt-5" aria-hidden="true">
-    <div class="track">
-      <span>UI Design</span><span>UX Research</span><span>Product Thinking</span><span>Wireframing</span><span>Prototyping</span><span>Design Systems</span>
-      <span>UI Design</span><span>UX Research</span><span>Product Thinking</span><span>Wireframing</span><span>Prototyping</span><span>Design Systems</span>
-    </div>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="container mt-lg-0">
-    <div class="row g-5">
-      <div class="col-lg-5">
-        <p class="eyebrow">About me</p>
-        <h2 class="display-5 mb-0">Design shaped<br>by software.</h2>
-      </div>
-      <div class="col-lg-7">
-        <p class="text-soft">I'm <strong class="text-ink">Vaishnavi Patil</strong>, an aspiring UI/UX designer with an MCA background and experience in Python full-stack development. I combine analytical thinking with user empathy to turn complex problems into intuitive, accessible experiences across web and mobile.</p>
-        <p class="text-soft">With a foundation in software development and hands-on work on AI-driven and consumer-focused products, I bring a problem-solving mindset and attention to detail to every project.</p>
-        <ul class="check-list mt-4 mb-4">
-          <li>User-first, research-backed design decisions</li>
-          <li>Clean, accessible interfaces with strong hierarchy</li>
-          <li>Comfortable talking to developers — I've written the code myself</li>
-        </ul>
-        <div class="row g-3">
-          <div class="col-sm-6">
-            <div class="edu-card">
-              <b>Master of Computer Applications</b><br>
-              <span>RIT Autonomous Institute, Ishwarpur · 2024–2026</span>
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="edu-card">
-              <b>Bachelor of Computer Applications</b><br>
-              <span>Shivaji University · 2021–2024</span>
-            </div>
-          </div>
+        <!-- ILLUSTRATION SLOT: save your artwork as "illustration.png" next to this file -->
+        <div class="illu rv-hero" id="illu" style="--hd:.5s">
+          <span class="orbit"></span>
+          <span class="ph">Vaishnavi Patil<br><small>vvaishnavi Patil</small></span>
+          <img src="illustration.png" alt="Illustration by Vaishnavi Patil">
+          <span class="chipf" style="top:8%;left:-6%">Figma</span>
+          <span class="chipf" style="bottom:14%;right:-6%;animation-delay:-2s">User research</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SKILLS -->
-<section id="skills" class="bg-ink">
-  <div class="container">
-    <div class="row mb-5">
-      <div class="col-lg-7">
-        <p class="eyebrow">Capabilities</p>
-        <h2 class="display-5">What I bring<br>to a team.</h2>
-      </div>
-      <div class="col-lg-5 d-flex align-items-end">
-        <p class="text-soft mb-0">From the first user interview to a developer-ready prototype.</p>
-      </div>
+<!-- =============== 2. PROJECTS =============== -->
+<section class="proj" id="projects">
+  <div class="wrap">
+    <div class="proj-head" id="projHead">
+      <h2 class="h-xl rv">Projects I've designed end to end</h2>
+      <p class="soft rv">Five case studies, from first interview to final prototype. DocuMate AI and EMORI are the two I'd start with.</p>
     </div>
 
-    <div class="row g-4">
-      <div class="col-md-6 col-lg-4 in">
-        <div class="skill-card">
-          <h4 style="color: #F5A425;">UI Design</h4>
-          <p>Clean visual interfaces with strong hierarchy, spacing and consistency.</p>
-          <span class="kw-chip">Visual hierarchy</span><span class="kw-chip">Auto layout</span>
+    <div class="stack" id="stack">
+
+      <!-- Featured: DocuMate AI -->
+      <article class="pcard" style="--i:0">
+        <div>
+          <div class="pmeta"><span class="badge">Featured</span>AI product design · UX research</div>
+          <h3>DocuMate AI</h3>
+          <p class="d">An AI assistant that guides students in Tier 2–3 cities through government document applications, replacing office visits and agent fees with one guided flow.</p>
+          <ul class="stats">
+            <li><b>39</b><span>survey participants</span></li>
+            <li><b>4</b><span>in-depth interviews</span></li>
+            <li><b>40+</b><span>hi-fi screens</span></li>
+            <li><b>6</b><span>AI-assisted workflows</span></li>
+          </ul>
+          <ul class="pts">
+            <li>Replaced an OCR-first approach with native DigiLocker integration, making documents more reliable and cutting manual uploads.</li>
+            <li>Designed human-in-the-loop confirmations across 7 stages, from AI guidance and Aadhaar eSign to payment and live status tracking.</li>
+          </ul>
+          <a class="plink" href="https://www.behance.net/vaishnavipatil510" target="_blank" rel="noopener noreferrer">View case study <span>↗</span></a>
         </div>
-      </div>
-      <div class="col-md-6 col-lg-4 in">
-        <div class="skill-card">
-          <h4 style="color: #F5A425;">UX Design</h4>
-          <p>Turning research into flows, information architecture and interaction patterns.</p>
-          <span class="kw-chip">User flows</span><span class="kw-chip">IA</span>
+        <div class="cover">
+          <img src="images/documate.png" alt="DocuMate AI screens" loading="lazy">
+          <svg viewBox="0 0 320 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g class="fl">
+            <rect class="a" x="28" y="34" width="190" height="52" rx="16"/><path class="l" d="M48 54h120M48 68h80"/>
+            <rect class="b" x="100" y="108" width="190" height="52" rx="16"/><path d="M120 128h120M120 142h70" stroke="#fff" stroke-opacity=".8" stroke-width="3" stroke-linecap="round"/>
+            <rect class="a" x="28" y="182" width="150" height="52" rx="16"/><path class="l" d="M48 202h90M48 216h50"/>
+            <circle class="b" cx="262" cy="212" r="24"/><path d="M251 212l8 8 14-16" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+          <span class="hint">Add images/documate.png</span>
         </div>
-      </div>
-      <div class="col-md-6 col-lg-4 in">
-        <div class="skill-card">
-          <h4 style="color: #F5A425;">UX Research</h4>
-          <p>Interviews, surveys, usability testing and affinity mapping.</p>
-          <span class="kw-chip">Interviews</span><span class="kw-chip">Usability testing</span>
+      </article>
+
+      <!-- Featured: EMORI -->
+      <article class="pcard" style="--i:1">
+        <div>
+          <div class="pmeta"><span class="badge">Featured</span>UX research · E-commerce redesign</div>
+          <h3>EMORI: Jewellery Redesign</h3>
+          <p class="d">A UX redesign of a custom jewellery e-commerce experience, built to reduce friction, improve discovery and make buying feel more confident.</p>
+          <ul class="stats">
+            <li><b>4</b><span>high-impact user journeys</span></li>
+            <li><b>15+</b><span>usability issues found</span></li>
+          </ul>
+          <ul class="pts">
+            <li>Ran a systematic heuristic evaluation and turned every finding into a concrete interface improvement.</li>
+            <li>Reworked navigation, information hierarchy and product cards, then built a reusable component system for future features.</li>
+          </ul>
+          <a class="plink" href="https://www.behance.net/gallery/243537459/EMORI-Redesigning-the-Custom-Jewellery-Experience" target="_blank" rel="noopener noreferrer">View case study <span>↗</span></a>
         </div>
-      </div>
-      <div class="col-md-6 col-lg-4 in">
-        <div class="skill-card">
-          <h4 style="color: #F5A425;">Product Thinking</h4>
-          <p>Reading business metrics and user needs together to prioritise the right problems.</p>
-          <span class="kw-chip">Product sense</span><span class="kw-chip">Business metrics</span>
+        <div class="cover">
+          <img src="images/emori.png" alt="EMORI redesign screens" loading="lazy">
+          <svg viewBox="0 0 320 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g class="fl">
+            <circle class="a" cx="160" cy="92" r="56"/><circle class="a" cx="160" cy="92" r="32"/><path class="b" d="M160 40l15 20h-30z"/>
+            <rect class="a" x="26" y="170" width="82" height="64" rx="14"/><rect class="a" x="119" y="170" width="82" height="64" rx="14"/><rect class="a" x="212" y="170" width="82" height="64" rx="14"/>
+            <path class="l" d="M42 214h40M135 214h40M228 214h40"/><circle class="b" cx="67" cy="192" r="8"/></g></svg>
+          <span class="hint">Add images/emori.png</span>
         </div>
-      </div>
-      <div class="col-md-6 col-lg-4 in">
-        <div class="skill-card">
-          <h4 style="color: #F5A425;">Wireframing &amp; Prototyping</h4>
-          <p>Low to high-fidelity flows and interactive Figma prototypes ready to test.</p>
-          <span class="kw-chip">Figma</span><span class="kw-chip">FigJam</span>
+      </article>
+
+      <article class="pcard" style="--i:2">
+        <div>
+          <div class="pmeta">Concept project · Mobile app, UX design</div>
+          <h3>PillCare: Medicine Reminder</h3>
+          <p class="d">An accessible medication reminder app for elderly users, using clear visual hierarchy and larger touch targets to reduce missed doses.</p>
+          <ul class="stats"><li><b>20+</b><span>mobile screens</span></li><li><b>Larger</b><span>touch targets</span></li></ul>
+          <ul class="pts"><li>Designed around low vision and low tech confidence: one action per screen, high contrast, plain language.</li></ul>
+          <a class="plink" href="https://www.behance.net/gallery/241798647/Medication-Reminder-and-caregiver-Support-App" target="_blank" rel="noopener noreferrer">View case study <span>↗</span></a>
         </div>
-      </div>
-      <div class="col-md-6 col-lg-4 in">
-        <div class="skill-card">
-          <h4 style="color: #F5A425;">Design Systems</h4>
-          <p>Reusable components and style guides for consistent, scalable products.</p>
-          <span class="kw-chip">Components</span><span class="kw-chip">Consistency</span>
+        <div class="cover">
+          <img src="images/pillcare.png" alt="PillCare app screens" loading="lazy">
+          <svg viewBox="0 0 320 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g class="fl">
+            <g transform="rotate(-28 150 110)"><rect class="a" x="85" y="85" width="130" height="50" rx="25"/><path class="b" d="M150 85h40a25 25 0 0 1 0 50h-40z"/></g>
+            <circle class="a" cx="236" cy="190" r="38"/><path class="l" d="M236 190v-18M236 190l14 9"/>
+            <rect class="a" x="30" y="178" width="130" height="18" rx="9"/><rect class="a" x="30" y="206" width="100" height="18" rx="9"/></g></svg>
+          <span class="hint">Add images/pillcare.png</span>
         </div>
-      </div>
-      <div class="col-md-6 col-lg-4 in">
-        <div class="skill-card">
-          <h4 style="color: #F5A425;">Front-end Development</h4>
-          <p>HTML, CSS, JavaScript and Bootstrap knowledge that bridges design and code.</p>
-          <span class="kw-chip">HTML/CSS</span><span class="kw-chip">JavaScript</span>
+      </article>
+
+      <article class="pcard" style="--i:3">
+        <div>
+          <div class="pmeta">Concept project · Mobile UX, fintech</div>
+          <h3>Finn: Finance Tracking</h3>
+          <p class="d">A personal finance app for young professionals with a Spend Check-in feature that helps them reflect on their habits instead of just logging them.</p>
+          <ul class="stats"><li><b>End to end</b><span>wireframes to hi-fi</span></li></ul>
+          <ul class="pts"><li>Moved from research and wireframes to a complete high-fidelity design in Figma.</li></ul>
+          <a class="plink" href="https://www.behance.net/gallery/247458787/Finn-Personal-Finance-Tracking-App-UXUI-Design" target="_blank" rel="noopener noreferrer">View case study <span>↗</span></a>
         </div>
-      </div>
-      <div class="col-md-6 col-lg-4 in">
-        <div class="skill-card">
-          <h4 style="color: #F5A425;">AI-Driven UX</h4>
-          <p>Designing human-in-the-loop flows for AI-assisted products people can trust.</p>
-          <span class="kw-chip">Human-in-the-loop</span><span class="kw-chip">Workflow design</span>
+        <div class="cover">
+          <img src="images/finn.png" alt="Finn app screens" loading="lazy">
+          <svg viewBox="0 0 320 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g class="fl">
+            <rect class="a" x="40" y="150" width="36" height="76" rx="9"/><rect class="a" x="92" y="116" width="36" height="110" rx="9"/><rect class="b" x="144" y="80" width="36" height="146" rx="9"/><rect class="a" x="196" y="124" width="36" height="102" rx="9"/><rect class="a" x="248" y="96" width="36" height="130" rx="9"/>
+            <path class="l" d="M44 70l60 -22 60 26 60 -34 60 18"/><circle class="b" cx="164" cy="74" r="7"/></g></svg>
+          <span class="hint">Add images/finn.png</span>
         </div>
-      </div>
-      <div class="col-md-6 col-lg-4 in">
-        <div class="skill-card">
-          <h4 style="color: #F5A425;">Collaboration</h4>
-          <p>Working closely with developers and teams from concept to hand-off.</p>
-          <span class="kw-chip">Dev hand-off</span><span class="kw-chip">Design thinking</span>
+      </article>
+
+      <article class="pcard" style="--i:4">
+        <div>
+          <div class="pmeta">Internship project · Compcare IT Solution</div>
+          <h3>Smart Local Marketplace</h3>
+          <p class="d">A responsive web platform connecting local vendors with nearby customers in Tier 2–3 cities, taken from Figma concept to a working interface.</p>
+          <ul class="stats"><li><b>Design → code</b><span>Python · SQL · Bootstrap</span></li></ul>
+          <ul class="pts"><li>Translated Figma designs into accessible, technically feasible web interfaces while working alongside developers.</li></ul>
+          <a class="plink" href="https://www.behance.net/gallery/241071155/A-Smart-Local-Market-Place-Website" target="_blank" rel="noopener noreferrer">View case study <span>↗</span></a>
         </div>
-      </div>
+        <div class="cover">
+          <img src="images/marketplace.png" alt="Smart Local Marketplace screens" loading="lazy">
+          <svg viewBox="0 0 320 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g class="fl">
+            <path class="a" d="M52 100h216l-16-46H68z"/><rect class="a" x="64" y="100" width="192" height="108" rx="8"/><rect class="b" x="142" y="140" width="40" height="68" rx="6"/>
+            <rect class="a" x="82" y="124" width="40" height="40" rx="6"/><rect class="a" x="202" y="124" width="40" height="40" rx="6"/>
+            <circle class="b" cx="262" cy="46" r="14"/><path class="b" d="M262 78l-12 -22h24z"/></g></svg>
+          <span class="hint">Add images/marketplace.png</span>
+        </div>
+      </article>
     </div>
 
-    <div class="mt-5">
-      <p class="cat-label">TOOLS &amp; TECH</p>
-      <div class="d-flex flex-wrap gap-2">
-        <span class="badge-soft">Figma</span><span class="badge-soft">FigJam</span><span class="badge-soft">Framer</span>
-        <span class="badge-soft">Claude</span><span class="badge-soft">Stitch</span><span class="badge-soft">Adobe Suite</span>
-        <span class="badge-soft">Microsoft Office</span><span class="badge-soft">HTML</span><span class="badge-soft">CSS</span>
-        <span class="badge-soft">JavaScript</span><span class="badge-soft">Bootstrap</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- EXPERIENCE -->
-<section id="experience">
-  <div class="container">
-    <div class="row mb-5">
-      <div class="col-lg-7">
-        <p class="eyebrow">Work experience</p>
-        <h2 class="display-5">Where I've<br>put it into practice.</h2>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-lg-9">
-        <div class="timeline">
-          <div class="timeline-item">
-            <p class="role fw-bold mb-1">UI/UX Design Intern · UptoSkills (Remote)</p>
-            <p class="meta">Feb 2026 – May 2026</p>
-            <ul>
-              <li>Ideated, designed wireframes, <strong>high-fidelity interfaces and interactive prototypes</strong> in Figma, iterating on Team Lead feedback.</li>
-              <li>Served as <strong>Team Captain</strong>, coordinating daily updates and facilitating brainstorming between interns and the Team Lead.</li>
-            </ul>
-          </div>
-          <div class="timeline-item">
-            <p class="role fw-bold mb-1">Python Full Stack Development Intern · Compcare IT Solution</p>
-            <p class="meta">Jan 2026 – May 2026</p>
-            <ul>
-              <li>Developed a responsive <strong>Smart Local Marketplace</strong> web app using Python, HTML5, CSS3, JavaScript, Bootstrap and SQL.</li>
-              <li>Applied UI/UX principles while translating Figma concepts into functional web interfaces, collaborating across design and development.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- WORK / CASE STUDIES -->
-<section id="work">
-  <div class="container">
-    <div class="row mb-5">
-      <div class="col-lg-7">
-        <p class="eyebrow">Case studies</p>
-        <h2 class="display-5">Projects I've<br>designed end to end.</h2>
-      </div>
-      <div class="col-lg-5 d-flex align-items-end">
-        <p class="text-soft mb-0">A mix of self-initiated concept projects and internship work, documented as full case studies on Behance.</p>
-      </div>
-    </div>
-
-    <div class="row g-4">
-
-      <div class="col-md-6">
-        <div class="proj-card">
-          <div class="proj-top">
-            <span class="proj-tag">Concept project</span>
-            <h3>DocuMate AI</h3>
-            <p>An AI assistant concept for government document applications — replacing office visits and agent fees with one guided chat flow, for students in Tier 2–3 cities.</p>
-            <div class="proj-stats">
-              <div><b>39</b><span>Survey respondents</span></div>
-              <div><b>4</b><span>In-depth interviews</span></div>
-              <div><b>6</b><span>AI-assisted workflows</span></div>
-            </div>
-          </div>
-          <div class="proj-foot">
-            <span class="text-soft small">AI Product Design · UX Research</span>
-            <a class="proj-cta accent" href="https://www.behance.net/vaishnavipatil510" target="_blank" rel="noopener noreferrer">View case study <em>↗</em></a>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6">
-        <div class="proj-card">
-          <div class="proj-top">
-            <span class="proj-tag">Concept project</span>
-            <h3>EMORI — Jewellery Redesign</h3>
-            <p>A UX redesign for a custom jewellery e-commerce experience, focused on product discovery and a smoother path to purchase.</p>
-            <div class="proj-stats">
-              <div><b>4</b><span>User journeys</span></div>
-              <div><b>15+</b><span>Usability issues found</span></div>
-            </div>
-          </div>
-          <div class="proj-foot">
-            <span class="text-soft small">UX Research · E-commerce</span>
-            <a class="proj-cta accent" href="https://www.behance.net/gallery/243537459/EMORI-Redesigning-the-Custom-Jewellery-Experience" target="_blank" rel="noopener noreferrer">View case study <em>↗</em></a>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6">
-        <div class="proj-card">
-          <div class="proj-top">
-            <span class="proj-tag">Concept project</span>
-            <h3>PillCare — Medicine Reminder</h3>
-            <p>An accessible medication reminder app for elderly users, focused on reducing missed doses through clear visual hierarchy.</p>
-            <div class="proj-stats">
-              <div><b>20+</b><span>Mobile screens</span></div>
-              <div><b>Larger</b><span>Touch targets</span></div>
-            </div>
-          </div>
-          <div class="proj-foot">
-            <span class="text-soft small">UX Design · Mobile App</span>
-            <a class="proj-cta accent" href="https://www.behance.net/gallery/241798647/Medication-Reminder-and-caregiver-Support-App" target="_blank" rel="noopener noreferrer">View case study <em>↗</em></a>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6">
-        <div class="proj-card">
-          <div class="proj-top">
-            <span class="proj-tag">Concept project</span>
-            <h3>Finn — Finance Tracking App</h3>
-            <p>A personal finance app for young professionals with a Spend Check-in feature to reflect on spending habits, designed end to end from wireframes to hi-fi.</p>
-            <div class="proj-stats">
-              <div><b>End-to-end</b><span>Wireframe → Hi-fi</span></div>
-            </div>
-          </div>
-          <div class="proj-foot">
-            <span class="text-soft small">Mobile UX · Fintech</span>
-            <a class="proj-cta accent" href="https://www.behance.net/gallery/247458787/Finn-Personal-Finance-Tracking-App-UXUI-Design" target="_blank" rel="noopener noreferrer">View case study <em>↗</em></a>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-12">
-        <div class="proj-card">
-          <div class="proj-top">
-            <span class="proj-tag">Internship project · Compcare IT Solution</span>
-            <h3>Smart Local Marketplace</h3>
-            <p>A responsive web platform connecting local vendors with nearby customers in Tier 2–3 cities, built during my full-stack internship — from Figma concept to a working interface.</p>
-            <div class="proj-stats">
-              <div><b>Full-stack</b><span>Python · SQL</span></div>
-              <div><b>Design→code</b><span>Figma to build</span></div>
-            </div>
-          </div>
-          <div class="proj-foot">
-            <span class="text-soft small">Web Platform · UX + Development</span>
-            <a class="proj-cta accent" href="https://www.behance.net/gallery/241071155/A-Smart-Local-Market-Place-Website" target="_blank" rel="noopener noreferrer">View case study <em>↗</em></a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="text-center mt-5">
-      <a href="https://www.behance.net/vaishnavipatil510" target="_blank" rel="noopener noreferrer" class="btn btn-outline-ink">View all work on Behance</a>
+    <div class="text-center mt-5 rv">
+      <a class="pill-btn" href="https://www.behance.net/vaishnavipatil510" target="_blank" rel="noopener noreferrer">All work on Behance ↗</a>
     </div>
   </div>
 </section>
 
-<!-- CONTACT -->
-<section id="contact">
-  <div class="container">
-    <div class="contact-panel">
-      <p class="eyebrow position-relative" style="z-index:1;color:var(--accent)">Get in touch</p>
-      <h2>Let's design something people actually enjoy using.</h2>
-      <p class="text-soft position-relative" style="z-index:1;max-width:32rem">I'm looking for internships and entry-level UI/UX roles. If you're building something meaningful, I'd love to help.</p>
-      <div class="contact-row">
-        <a href="mailto:vaishnavi.s.patil05@gmail.com" class="btn btn-accent">Email me</a>
-        <a href="tel:+918788083990" class="btn btn-outline-cream">Call me</a>
+<!-- =============== 3. DESIGN PROCESS (thread draws the circle) =============== -->
+<section id="process" aria-label="My design process">
+  <div class="stage" id="stage">
+    <div class="stage-head">
+      <h2>How I design</h2>
+      <p class="soft">Nine steps that loop. The last one leads straight back to the first.</p>
+    </div>
+    <div class="ring" id="ring"><!-- built by JavaScript --></div>
+  </div>
+</section>
+
+<!-- =============== 4. SKILLS =============== -->
+<section class="skills" id="skills">
+  <div class="wrap">
+    <div class="sec-head sk-head rv">
+      <h2 class="h-xl">What I bring to a team</h2>
+      <p class="soft">From the first user interview to a developer-ready hand-off.</p>
+    </div>
+
+    <div class="knot" data-knot>
+      <div class="kc">
+        <h3>Design</h3>
+        <p>Product thinking and craft, from structure to pixels.</p>
+        <div class="chips">
+          <span class="chip">User Experience Design</span><span class="chip">Interaction Design</span><span class="chip">Design System</span><span class="chip">AI-Driven UX</span><span class="chip">Product Sense</span><span class="chip">Business Metrics Analysis</span><span class="chip">Critical Thinking &amp; Design Methodology</span><span class="chip">User Research</span><span class="chip">Prototyping</span><span class="chip">Information Architecture</span><span class="chip">Auto Layout</span><span class="chip">Responsive Design</span>
+        </div>
       </div>
-      <div class="contact-links">
-        <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener" class="contact-link-card">LinkedIn ↗</a>
-        <a href="https://www.behance.net/vaishnavipatil510" target="_blank" rel="noopener" class="contact-link-card">Behance ↗</a>
-        <a href="https://vaishnavipatil.com" target="_blank" rel="noopener" class="contact-link-card">vaishnavipatil.com ↗</a>
+      <span class="tnode"></span>
+    </div>
+
+    <div class="knot r" data-knot>
+      <div class="kc">
+        <h3>Tools</h3>
+        <p>What I design, test and think with.</p>
+        <div class="chips">
+          <span class="chip">Figma</span><span class="chip">FigJam</span><span class="chip">Framer</span><span class="chip">Claude</span><span class="chip">Stitch</span><span class="chip">Adobe Suite</span><span class="chip">Microsoft Office</span>
+        </div>
       </div>
+      <span class="tnode"></span>
+    </div>
+
+    <div class="knot" data-knot>
+      <div class="kc">
+        <h3>Coding</h3>
+        <p>I can build what I design, which makes hand-offs easier.</p>
+        <div class="chips"><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span><span class="chip">Bootstrap</span></div>
+      </div>
+      <span class="tnode"></span>
+    </div>
+
+    <div class="knot r" data-knot>
+      <div class="kc">
+        <h3>Collaboration</h3>
+        <p>Design is a team sport.</p>
+        <div class="chips"><span class="chip">Design Thinking</span><span class="chip">Cross-Functional Collaboration</span><span class="chip">Developer Hand-offs</span></div>
+      </div>
+      <span class="tnode"></span>
     </div>
   </div>
 </section>
 
-<footer>Designed and built by Vaishnavi Patil · 2026</footer>
+<!-- =============== 5. EXPERIENCE =============== -->
+<section class="exp" id="experience">
+  <div class="wrap">
+    <div class="sec-head rv" style="max-width:640px">
+      <h2 class="h-xl">Design and development, braided together</h2>
+      <div class="braid" aria-hidden="true">
+        <span>Design</span>
+        <svg viewBox="0 0 450 60" preserveAspectRatio="none"><path class="p1" d="M0 30C50-10 100 70 150 30S250-10 300 30 400 70 450 30"/><path class="p2" d="M0 30C50 70 100-10 150 30S250 70 300 30 400-10 450 30"/></svg>
+        <span>Code</span>
+      </div>
+    </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="knot" data-knot>
+      <div class="kc">
+        <article class="xcard">
+          <div class="xmeta"><span>Jun 2026 – Present</span><span class="tag">Current</span><span class="tag">Design</span></div>
+          <h4>UI/UX Designer (Project-Based)</h4>
+          <p class="org">Go Design!</p>
+          <ul>
+            <li>Created <mark>user flows, wireframes, hi-fi UI and interactive prototypes</mark> that improved usability and visual consistency.</li>
+            <li>Applied user-centred principles to improve navigation, clarity and <mark>accessibility</mark> across multiple client projects.</li>
+            <li>Refined high-fidelity designs in Figma through mentor feedback and iterative design reviews.</li>
+          </ul>
+        </article>
+      </div>
+      <span class="tnode"></span>
+    </div>
+
+    <div class="knot r" data-knot>
+      <div class="kc">
+        <article class="xcard">
+          <div class="xmeta"><span>Feb 2026 – May 2026</span><span class="tag">Design</span><span class="tag">Leadership</span></div>
+          <h4>UI/UX Design Intern</h4>
+          <p class="org">UptoSkills (Remote)</p>
+          <ul>
+            <li>Worked with cross-functional teams to ideate and design <mark>wireframes, hi-fi interfaces and interactive Figma prototypes</mark>, iterating on Team Lead feedback.</li>
+            <li>Served as <mark>Team Captain</mark>: ran daily standups, facilitated brainstorming and kept interns and the Team Lead in sync.</li>
+          </ul>
+        </article>
+      </div>
+      <span class="tnode"></span>
+    </div>
+
+    <div class="knot" data-knot>
+      <div class="kc">
+        <article class="xcard">
+          <div class="xmeta"><span>Jan 2026 – May 2026</span><span class="tag">Design</span><span class="tag">Development</span></div>
+          <h4>Python Full Stack Development Intern</h4>
+          <p class="org">Compcare IT Solution</p>
+          <ul>
+            <li>Built the responsive <mark>Smart Local Marketplace</mark> web app with Python, HTML5, CSS3, JavaScript and Bootstrap.</li>
+            <li>Bridged design and development, gaining first-hand knowledge of <mark>technical constraints</mark> that now shape my design decisions.</li>
+          </ul>
+          <div class="bridge"><b>Figma</b><i>→</i><b>HTML · CSS · JS · Bootstrap</b></div>
+        </article>
+      </div>
+      <span class="tnode"></span>
+    </div>
+  </div>
+</section>
+
+<!-- =============== 6. EDUCATION =============== -->
+<section class="edu" id="education">
+  <div class="wrap">
+    <div class="knot r" data-knot>
+      <div class="kc">
+        <h3>Education</h3>
+        <p>Computer applications by training, design by choice.</p>
+        <div class="egrid">
+          <div class="ei" style="--c:0"><b>Master of Computer Applications</b><span>RIT Autonomous Institute, Ishwarpur · 2024 – 2026</span></div>
+          <div class="ei" style="--c:1"><b>Bachelor of Computer Applications</b><span>Shivaji University · 2021 – 2024</span></div>
+          <div class="ei" style="--c:2"><b>Digital Skills: User Experience</b><span>Accenture (FutureLearn) · 2026</span></div>
+          <div class="ei" style="--c:3"><b>UX Foundations: Research</b><span>LinkedIn Learning · 2025</span></div>
+          <div class="ei" style="--c:4"><b>Frontend Development</b><span>Great Learning · 2023</span></div>
+        </div>
+      </div>
+      <span class="tnode"></span>
+    </div>
+  </div>
+</section>
+
+<!-- =============== 7. CONTACT (thread ends here) =============== -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <span class="tnode end-node" id="endNode" data-end></span>
+    <h2 class="rv">Let's work together</h2>
+    <p class="soft sub rv">I'm looking for internships and entry-level UI/UX roles. If you're building something meaningful, I'd love to help.</p>
+    <ul class="links">
+      <!-- TODO: replace the LinkedIn URL with your real profile -->
+      <li style="--c:0"><a href="https://www.linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer"><span class="k">LinkedIn</span><span class="v">linkedin.com/in/yourprofile</span><span class="ar">↗</span></a></li>
+      <!-- <li style="--c:1"><a href="https://vaishnavipatil.com" target="_blank" rel="noopener noreferrer"><span class="k">Portfolio website</span><span class="v">vaishnavipatil.com</span><span class="ar">↗</span></a></li> -->
+      <li style="--c:2"><a href="https://www.behance.net/vaishnavipatil510" target="_blank" rel="noopener noreferrer"><span class="k">Behance</span><span class="v">behance.net/vaishnavipatil510</span><span class="ar">↗</span></a></li>
+      <li style="--c:3"><a href="mailto:vaishnavi.s.patil05@gmail.com"><span class="k">Email</span><span class="v">vaishnavi.s.patil05@gmail.com</span><span class="ar">↗</span></a></li>
+      <li style="--c:4"><a href="tel:+918788083990"><span class="k">Phone</span><span class="v">+91-87880 83990</span><span class="ar">↗</span></a></li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap">Designed and built by Vaishnavi Patil · 2026 · <a href="#home">Back to top</a></div></footer>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const NS = 'http://www.w3.org/2000/svg';
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const svg = $('#thread'), tip = $('#tip');
+  const pos = el => { const r = el.getBoundingClientRect(); return { x: r.left + scrollX + r.width / 2, y: r.top + scrollY + r.height / 2 }; };
+
+  /* ---------- 1. Hero name: split into letters so the thread "writes" them ---------- */
+  let d = 0.35;
+  $$('.nm text[data-split]').forEach(t => {
+    const s = t.textContent; t.textContent = '';
+    [...s].forEach(ch => {
+      const ts = document.createElementNS(NS, 'tspan');
+      ts.textContent = ch; ts.style.setProperty('--d', d.toFixed(2)); d += 0.2;
+      t.appendChild(ts);
+    });
+    d += 0.2;
+  });
+
+  /* illustration + cover images: hide placeholders once a real image loads, remove if missing */
+  $$('.illu img, .cover img').forEach(img => {
+    const box = img.parentElement;
+    img.addEventListener('load', () => box.classList.add('has'));
+    img.addEventListener('error', () => img.remove());
+    if (img.complete && img.naturalWidth) box.classList.add('has');
+  });
+
+  /* ---------- 2. Design process ring ---------- */
+  const steps = [
+    ['User research', 'Interviews, surveys and observation to learn who I am designing for and what gets in their way.'],
+    ['Problem definition', 'Turning what I heard into one sharp problem statement and clear goals.'],
+    ['Analysis & team discussion', 'Making sense of the data with teammates: grouping insights, debating priorities, agreeing on direction.'],
+    ['Wireframing', 'Quick low-fidelity sketches of flows, so structure gets tested before anything is polished.'],
+    ['Information architecture', 'Organising content and navigation so people find things without thinking.'],
+    ['Layouts', 'Grid, hierarchy and spacing: giving every screen a clear reading order.'],
+    ['High-fidelity screens', 'Visual design, components and states in Figma, built on a consistent system.'],
+    ['Prototype', 'Interactive prototypes that real people can try, break and give feedback on.'],
+    ['Iterations', 'Feedback flows back in. The loop closes where it began: with research.']
+  ];
+  const ring = $('#ring'), R = 210, C = 2 * Math.PI * R, N = steps.length;
+  let svgHtml = `<svg viewBox="0 0 600 600" aria-hidden="true">
+    <circle class="inner" cx="300" cy="300" r="170"/>
+    <circle class="trk" cx="300" cy="300" r="${R}"/>
+    <path class="rg" id="rg" d="M300 90A210 210 0 0 1 300 510A210 210 0 0 1 300 90"/>
+    <path class="rl" id="rl" d="M300 90A210 210 0 0 1 300 510A210 210 0 0 1 300 90"/>`;
+  let labels = '', center = '';
+  steps.forEach((s, k) => {
+    const a = k * 2 * Math.PI / N, sn = Math.sin(a), cs = Math.cos(a);
+    svgHtml += `<circle class="rn" data-k="${k}" cx="${(300 + R * sn).toFixed(1)}" cy="${(300 - R * cs).toFixed(1)}" r="8"/>`;
+    const ax = sn > .3 ? '0' : sn < -.3 ? '-100%' : '-50%', ay = k === 0 ? '-100%' : '-50%';
+    labels += `<div class="lab ${sn < -.3 ? 'r' : ''}" data-k="${k}" style="left:calc(50% + ${sn.toFixed(3)} * (35% + 24px));top:calc(50% - ${cs.toFixed(3)} * (35% + 24px));transform:translate(${ax},${ay})"><small>${String(k + 1).padStart(2, '0')}</small><span>${s[0]}</span></div>`;
+    center += `<div class="ps" data-k="${k}"><div class="pn">${String(k + 1).padStart(2, '0')} / 09</div><h3>${s[0]}</h3><p>${s[1]}</p></div>`;
+  });
+  svgHtml += `<g id="rtip"><circle class="halo" r="16"/><circle class="dot" r="6"/></g></svg>`;
+  ring.innerHTML = svgHtml + labels + `<div class="center" aria-live="polite">${center}</div>`;
+  const rl = $('#rl'), rg = $('#rg'), rtip = $('#rtip');
+  [rl, rg].forEach(p => p.style.strokeDasharray = C);
+  const rNodes = $$('.rn', ring), rLabs = $$('.lab', ring), rSteps = $$('.ps', ring);
+
+  /* ---------- 3. Building the thread paths from live layout ---------- */
+  let pieces = [], proc = {}, knots = [], endY = 0, cardEls = $$('.pcard'), sections = [];
+
+  const smooth = p => {
+    let s = `M${p[0].x.toFixed(1)} ${p[0].y.toFixed(1)}`;
+    for (let i = 0; i < p.length - 1; i++) {
+      const p0 = p[i - 1] || p[i], p1 = p[i], p2 = p[i + 1], p3 = p[i + 2] || p2;
+      s += `C${(p1.x + (p2.x - p0.x) / 6).toFixed(1)} ${(p1.y + (p2.y - p0.y) / 6).toFixed(1)} ${(p2.x - (p3.x - p1.x) / 6).toFixed(1)} ${(p2.y - (p3.y - p1.y) / 6).toFixed(1)} ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;
+    }
+    return s;
+  };
+  const makePiece = (g, pts) => {
+    const d = smooth(pts), [ghost, glow, line] = $$('path', g);
+    [ghost, glow, line].forEach(p => p.setAttribute('d', d));
+    const len = line.getTotalLength(), n = Math.max(60, Math.ceil(len / 5)), ys = new Float32Array(n + 1);
+    let mx = -1;
+    for (let i = 0; i <= n; i++) { mx = Math.max(mx, line.getPointAtLength(len * i / n).y); ys[i] = mx; }
+    [glow, line].forEach(p => { p.style.strokeDasharray = len; p.style.strokeDashoffset = len + 1; });
+    return { glow, line, len, n, ys, drawn: -1 };
+  };
+  const drawnAt = (pc, y) => {
+    const { ys, n, len } = pc;
+    if (y <= ys[0]) return 0;
+    if (y >= ys[n]) return len;
+    let lo = 0, hi = n;
+    while (hi - lo > 1) { const m = (lo + hi) >> 1; ys[m] <= y ? lo = m : hi = m; }
+    const f = (y - ys[lo]) / Math.max(.001, ys[hi] - ys[lo]);
+    return len * (lo + f) / n;
+  };
+
+  function build() {
+    svg.style.height = '0';
+    const W = document.documentElement.clientWidth, H = document.documentElement.scrollHeight, vh = innerHeight;
+    svg.setAttribute('width', W); svg.setAttribute('height', H); svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.style.height = H + 'px';
+    const mobile = W < 820;
+
+    // process stage geometry (relative to the sticky stage, so it is valid at any scroll)
+    const sec = $('#process'), stage = $('#stage');
+    const secTop = sec.getBoundingClientRect().top + scrollY, secH = sec.offsetHeight, stH = stage.offsetHeight;
+    const sr = stage.getBoundingClientRect(), rr = ring.getBoundingClientRect();
+    const scale = rr.width / 600, cxp = rr.left + scrollX + rr.width / 2, cyRel = rr.top - sr.top + rr.height / 2, Rpx = R * scale;
+    proc = { secTop, span: Math.max(1, secH - stH) };
+    const T = { x: cxp, y: secTop + cyRel - Rpx };
+    const B = { x: cxp, y: secTop + secH - stH + cyRel + Rpx };
+
+    // piece A: hero -> projects (margins) -> top of the circle
+    const S = pos($('#threadStart')), hd = pos($('#projHead'));
+    const stack = $('#stack'), st = stack.getBoundingClientRect().top + scrollY, sb = st + stack.offsetHeight;
+    const mL = mobile ? 9 : Math.max(18, W * .04), mR = W - mL;
+    const A = [S, { x: S.x + (mobile ? 22 : 90), y: S.y + vh * .3 }, { x: mobile ? 14 : mL + 10, y: hd.y }];
+    let side = 0;
+    for (let y = st + vh * .35; y < sb + vh * .1; y += vh * .8) { A.push({ x: side++ % 2 ? mL : mR, y }); }
+    while (A.length && T.y - A[A.length - 1].y < 160) A.pop();
+    A.push({ x: (A[A.length - 1].x + T.x) / 2, y: (A[A.length - 1].y + T.y) / 2 }, T);
+
+    // piece B: bottom of the circle -> every knot -> the end node
+    const nodes = $$('.tnode').filter(n => n.id !== 'threadStart').map(pos);
+    const Bp = [B];
+    const amp = mobile ? 22 : Math.min(W * .1, 180);
+    let dir = 1;
+    nodes.forEach(nd => {
+      const a = Bp[Bp.length - 1];
+      if (nd.y - a.y > 220) { Bp.push({ x: (a.x + nd.x) / 2 + dir * amp, y: (a.y + nd.y) / 2 }); dir *= -1; }
+      Bp.push(nd);
+    });
+    endY = nodes[nodes.length - 1].y;
+    knots = $$('[data-knot]').map(el => ({ el, y: pos($('.tnode', el)).y }));
+    knots.push({ el: $('#contact'), y: pos($('#endNode')).y, end: true });
+
+    pieces = [makePiece($('#pA'), A), makePiece($('#pB'), Bp)];
+    sections = $$('section[id]').map(s => ({ id: s.id, top: s.getBoundingClientRect().top + scrollY }));
+    last = -1; frame(true);
+  }
+
+  /* ---------- 4. Per-frame update, driven by (smoothed) scroll ---------- */
+  let ss = scrollY, last = -1, navLinks = $$('.nav a.l');
+  function frame(force) {
+    const vh = innerHeight;
+    ss += (scrollY - ss) * (reduce ? 1 : .14);
+    if (Math.abs(scrollY - ss) < .05) ss = scrollY;
+    if (!force && Math.abs(ss - last) < .01) return;
+    last = ss;
+    const tipY = ss + vh * .68;
+
+    // thread pieces
+    let tipSet = false;
+    pieces.forEach(pc => {
+      const dr = drawnAt(pc, tipY);
+      if (Math.abs(dr - pc.drawn) > .2) {
+        pc.line.style.strokeDashoffset = pc.glow.style.strokeDashoffset = (pc.len - dr) + (dr <= 0 ? 1 : 0);
+        pc.drawn = dr;
+      }
+      if (!tipSet && dr > 1 && dr < pc.len - 1) {
+        const p = pc.line.getPointAtLength(dr);
+        tip.setAttribute('transform', `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})`); tipSet = true;
+      }
+    });
+    tip.classList.toggle('on', tipSet);
+
+    // knots light up as the thread reaches them
+    knots.forEach(k => k.el.classList.toggle('on', tipY >= k.y));
+
+    // process circle
+    const p = clamp((ss - proc.secTop) / proc.span, 0, 1), q = clamp(p / .92, 0, 1);
+    const off = C * (1 - q);
+    rl.style.strokeDashoffset = rg.style.strokeDashoffset = q <= 0 ? C + 1 : off;
+    const ang = q * 2 * Math.PI;
+    rtip.setAttribute('transform', `translate(${(300 + R * Math.sin(ang)).toFixed(1)} ${(300 - R * Math.cos(ang)).toFixed(1)})`);
+    rtip.style.opacity = q > 0 && q < 1 ? 1 : 0;
+    const cur = q <= 0 ? -1 : Math.min(N - 1, Math.floor(q * N + 1e-6));
+    rNodes.forEach((n, k) => { n.classList.toggle('hit', q >= k / N && q > 0); n.classList.toggle('cur', k === cur); });
+    rLabs.forEach((l, k) => { l.classList.toggle('hit', q >= k / N && q > 0); l.classList.toggle('cur', k === cur); });
+    rSteps.forEach((s, k) => s.classList.toggle('on', k === cur));
+    ring.classList.toggle('closed', q >= 1);
+
+    // nav
+    $('#nav').classList.toggle('solid', scrollY > 40);
+    let act = '';
+    sections.forEach(s => { if (scrollY + vh * .4 >= s.top) act = s.id; });
+    if (act === 'education') act = 'experience';
+    navLinks.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + act));
+  }
+
+  // stacking cards: earlier cards shrink and dim as the next one slides over them
+  function stackFx() {
+    const vh = innerHeight;
+    cardEls.forEach((c, i) => {
+      const nx = cardEls[i + 1];
+      if (!nx || getComputedStyle(c).position !== 'sticky') { c.style.transform = ''; c.style.filter = ''; return; }
+      const stickTop = 84 + (i + 1) * 20;
+      const t = clamp(1 - (nx.getBoundingClientRect().top - stickTop) / (vh * .75), 0, 1);
+      c.style.transform = `scale(${1 - .045 * t})`;
+      c.style.filter = `brightness(${1 - .38 * t})`;
+    });
+  }
+
+  function loop() { frame(false); stackFx(); requestAnimationFrame(loop); }
+
+  /* ---------- 5. Small reveals ---------- */
+  $$('[data-knot] .chip, [data-knot] .ei').forEach((c, i, all) => {
+    // index chips within their own group so they appear one after another
+    const grp = c.parentElement, idx = [...grp.children].indexOf(c);
+    if (!c.style.getPropertyValue('--c')) c.style.setProperty('--c', idx);
+  });
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .2 });
+  $$('.rv').forEach(el => io.observe(el));
+
+  /* ---------- boot ---------- */
+  let rt;
+  addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(build, 150); });
+  addEventListener('load', build);
+  const start = () => { document.body.classList.add('go'); build(); };
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(start);
+  if ('ResizeObserver' in window) new ResizeObserver(() => { clearTimeout(rt); rt = setTimeout(build, 200); }).observe(document.body);
+  if (reduce) $$('[data-knot],#contact').forEach(k => k.classList.add('on'));
+  requestAnimationFrame(loop);
+})();
+</script>
 </body>
 </html>
